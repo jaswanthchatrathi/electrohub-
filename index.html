@@ -1,291 +1,286 @@
- <!DOCTYPE html>
-<html lang="en">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>ElectroHub - Electronics Store</title>
-
-<style>
-*{box-sizing:border-box}
-body{margin:0;font-family:Arial,sans-serif;background:#f1f3f6;color:#212121}
-
-/* Topbar */
-.topbar{background:#2874f0;color:white;padding:12px 4%;display:flex;align-items:center;justify-content:space-between;gap:20px;flex-wrap:wrap}
-.logo-area{display:flex;flex-direction:column}
-.logo{font-size:24px;font-weight:bold;color:white;text-decoration:none}
-.logo span{color:#ffe500}
-.subtext{font-size:11px;color:#f0f0f0;letter-spacing:0.5px}
-.searchbox{display:flex;flex:1;min-width:250px;max-width:600px}
-.searchbox input{width:100%;padding:10px 14px;border:0;border-radius:2px 0 0 2px;font-size:14px;outline:none}
-.searchbox button{background:#ffe500;color:#212121;border:0;padding:0 20px;font-weight:bold;cursor:pointer;border-radius:0 2px 2px 0}
-.user-actions{display:flex;align-items:center;gap:25px;font-size:14px;font-weight:bold}
-.user-actions div{cursor:pointer}
-
-/* Navbar */
-.navbar{background:white;display:flex;justify-content:center;gap:35px;padding:10px;box-shadow:0 1px 3px #0001;font-size:14px;font-weight:bold;flex-wrap:wrap}
-.navbar a{color:#212121;text-decoration:none;padding:5px 10px}
-.navbar a:hover, .navbar a.active{color:#2874f0}
-
-/* Top Categories Row */
-.cat-row{display:flex;justify-content:center;gap:15px;padding:15px 4%;background:white;margin-bottom:10px;overflow-x:auto}
-.cat-card{background:#f8f9fa;border:1px solid #eaeaea;border-radius:6px;padding:10px;text-align:center;min-width:110px;cursor:pointer;transition:transform 0.2s}
-.cat-card:hover{transform:translateY(-2px);box-shadow:0 2px 8px #0001}
-.cat-card img{width:50px;height:50px;object-fit:contain}
-.cat-card span{display:block;font-size:12px;margin-top:6px;font-weight:bold;color:#333}
-
-/* Hero Banner */
-.hero{margin:10px 4%;background:linear-gradient(135deg,#172c65,#2874f0);color:white;padding:30px;border-radius:6px;display:flex;justify-content:space-between;align-items:center;gap:20px;flex-wrap:wrap}
-.hero-content{max-width:500px}
-.hero h1{margin:0 0 10px;font-size:28px;line-height:1.2}
-.hero h1 span{color:#ffe500}
-.hero p{margin:0 0 20px;font-size:14px;color:#e0e0e0;line-height:1.5}
-.shop-btn{background:#ffe500;color:#212121;border:0;padding:10px 24px;font-weight:bold;font-size:14px;border-radius:3px;cursor:pointer}
-.hero-badges{display:flex;flex-direction:column;gap:12px;background:rgba(255,255,255,0.1);padding:15px;border-radius:4px;font-size:13px}
-.badge-item{display:flex;align-items:center;gap:8px}
-
-/* Main Layout Grid */
-.main-container{display:flex;gap:15px;padding:0 4%;margin-bottom:30px}
-
-/* Sidebar Filters */
-.sidebar{width:240px;background:white;padding:15px;border-radius:4px;height:fit-content;box-shadow:0 1px 3px #0001}
-.sidebar h3{font-size:15px;margin:0 0 12px;border-bottom:1px solid #eee;padding-bottom:8px}
-.filter-group{margin-bottom:18px}
-.filter-group h4{font-size:13px;margin:0 0 8px;color:#555}
-.filter-option{display:flex;align-items:center;gap:8px;font-size:13px;margin-bottom:6px;cursor:pointer}
-
-/* Products Section */
-.content-area{flex:1}
-.toolbar{background:white;padding:12px 15px;border-radius:4px;display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;box-shadow:0 1px 3px #0001}
-.toolbar strong{font-size:16px}
-.toolbar select{padding:6px 10px;border:1px solid #ddd;border-radius:3px;font-size:13px;outline:none}
-
-.products-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:12px}
-.product-card{background:white;border-radius:4px;padding:12px;box-shadow:0 1px 3px #0001;display:flex;flex-direction:column;justify-content:space-between;transition:box-shadow .2s}
-.product-card:hover{box-shadow:0 4px 12px #0002}
-.product-card img{width:100%;height:150px;object-fit:contain;background:#fff;margin-bottom:8px}
-.product-title{font-size:14px;font-weight:bold;margin:0 0 6px;color:#212121;height:36px;overflow:hidden}
-.rating{font-size:12px;background:#388e3c;color:white;padding:2px 6px;border-radius:3px;display:inline-block;font-weight:bold;margin-bottom:8px}
-.rating span{font-weight:normal;font-size:11px;margin-left:4px;color:#e8f5e9}
-.price-row{font-size:18px;font-weight:bold;color:#212121;margin-bottom:10px}
-.add-btn{background:#ff9f00;color:white;border:0;width:100%;padding:10px;font-weight:bold;font-size:13px;border-radius:2px;cursor:pointer;transition:background 0.2s}
-.add-btn:hover{background:#f39000}
-
-/* Footer */
-footer{background:#172337;color:white;padding:30px 4%;text-align:center;font-size:13px;margin-top:40px}
-footer p{color:#878787;margin:5px 0}
-
-@media(max-width:768px){
- .main-container{flex-direction:column}
- .sidebar{width:100%}
- .hero{flex-direction:column;align-items:flex-start}
-}
-</style>
-</head>
-
-<body>
-
-<!-- Topbar -->
-<header class="topbar">
-  <div class="logo-area">
-    <a href="#" class="logo">Electro<span>Hub</span></a>
-    <span class="subtext">Electronics • IoT • Embedded • More</span>
-  </div>
-  <div class="searchbox">
-    <input id="search" placeholder="Search for products, brands and more..." onkeyup="filterProducts()">
-    <button onclick="filterProducts()">🔍</button>
-  </div>
-  <div class="user-actions">
-    <div>👤 Login</div>
-    <div onclick="alert('Cart is empty or items added!')">🛒 Cart <span id="cart-count" style="background:#ff9f00;padding:2px 6px;border-radius:50%;font-size:12px">0</span></div>
-  </div>
-</header>
-
-<!-- Navbar -->
-<nav class="navbar">
-  <a href="#" class="active">Home</a>
-  <a href="#" onclick="filterByCategory('All')">Products</a>
-  <a href="#" onclick="filterByCategory('Project Kits')">Project Kits</a>
-  <a href="#" onclick="alert('ElectroHub is your premier destination for hobbyist and industrial electronic components.')">About Us</a>
-  <a href="#" onclick="alert('Support Email: support@electrohub.in | Phone: 1800-ELECTRO')">Contact</a>
-</nav>
-
-<!-- Category Top Icons -->
-<div class="cat-row">
-  <div class="cat-card" onclick="filterByCategory('Development Boards')">
-    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/c/c8/Arduino_Uno_-_R3.jpg/200px-Arduino_Uno_-_R3.jpg" alt="Dev boards">
-    <span>Development Boards</span>
-  </div>
-  <div class="cat-card" onclick="filterByCategory('Sensors')">
-    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/2/23/HC-SR04_ultrasonic_sensor.jpg/200px-HC-SR04_ultrasonic_sensor.jpg" alt="Sensors">
-    <span>Sensors</span>
-  </div>
-  <div class="cat-card" onclick="filterByCategory('Components')">
-    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/f/fc/Carbon-film-resistors.jpg/200px-Carbon-film-resistors.jpg" alt="Components">
-    <span>Components</span>
-  </div>
-  <div class="cat-card" onclick="filterByCategory('Robotics')">
-    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/9/9a/Breadboard_Electronic_Components.jpg/200px-Breadboard_Electronic_Components.jpg" alt="Robotics">
-    <span>Robotics</span>
-  </div>
-  <div class="cat-card" onclick="filterByCategory('Communication')">
-    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/9/94/HC-05_Bluetooth_Module.jpg/200px-HC-05_Bluetooth_Module.jpg" alt="Communication">
-    <span>Communication</span>
-  </div>
-  <div class="cat-card" onclick="filterByCategory('Project Kits')">
-    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/9/9a/Breadboard_Electronic_Components.jpg/200px-Breadboard_Electronic_Components.jpg" alt="Project Kits">
-    <span>Project Kits</span>
-  </div>
-</div>
-
-<!-- Hero Banner -->
-<section class="hero">
-  <div class="hero-content">
-    <h1>Build Your Next Big Idea with <span>ElectroHub</span></h1>
-    <p>Quality electronic components, development boards, sensors and IoT modules — all in one place.</p>
-    <button class="shop-btn" onclick="window.scrollTo({top: 600, behavior: 'smooth'})">Shop Now →</button>
-  </div>
-  <div class="hero-badges">
-    <div class="badge-item">⚡ Fast & Reliable Delivery across India</div>
-    <div class="badge-item">🛡️ 100% Quality Tested Products</div>
-    <div class="badge-item">🎓 Dedicated Student & Maker Support</div>
-  </div>
-</section>
-
-<!-- Main Container -->
-<div class="main-container">
-  
-  <!-- Sidebar Filters -->
-  <aside class="sidebar">
-    <h3>Filters</h3>
-    
-    <div class="filter-group">
-      <h4>Categories</h4>
-      <label class="filter-option"><input type="radio" name="cat" checked onclick="filterByCategory('All')"> All Products</label>
-      <label class="filter-option"><input type="radio" name="cat" onclick="filterByCategory('Development Boards')"> Development Boards</label>
-      <label class="filter-option"><input type="radio" name="cat" onclick="filterByCategory('Sensors')"> Sensors</label>
-      <label class="filter-option"><input type="radio" name="cat" onclick="filterByCategory('Components')"> Components</label>
-      <label class="filter-option"><input type="radio" name="cat" onclick="filterByCategory('Robotics')"> Robotics</label>
-      <label class="filter-option"><input type="radio" name="cat" onclick="filterByCategory('Communication')"> Communication</label>
-      <label class="filter-option"><input type="radio" name="cat" onclick="filterByCategory('Project Kits')"> Project Kits</label>
-    </div>
-
-    <div class="filter-group">
-      <h4>Price Range</h4>
-      <label class="filter-option"><input type="checkbox" class="price-filter" value="200" onchange="filterProducts()"> Under ₹200</label>
-      <label class="filter-option"><input type="checkbox" class="price-filter" value="500" onchange="filterProducts()"> ₹200 - ₹500</label>
-      <label class="filter-option"><input type="checkbox" class="price-filter" value="1000" onchange="filterProducts()"> ₹500 - ₹1,000</label>
-      <label class="filter-option"><input type="checkbox" class="price-filter" value="above" onchange="filterProducts()"> Above ₹1,000</label>
-    </div>
-  </aside>
-
-  <!-- Products Section -->
-  <main class="content-area">
-    <div class="toolbar">
-      <strong>Electronics Products</strong>
-      <div>
-        <label style="font-size:13px;color:#555;margin-right:8px;">Sort by:</label>
-        <select id="sort-select" onchange="sortProducts()">
-          <option value="popularity">Popularity</option>
-          <option value="low-high">Price: Low to High</option>
-          <option value="high-low">Price: High to Low</option>
-          <option value="rating">Customer Ratings</option>
-        </select>
-      </div>
-    </div>
-
-    <div id="product-grid" class="products-grid">
-      <!-- Dynamically populated products -->
-    </div>
-  </main>
-
-</div>
-
-<!-- Footer -->
-<footer>
-  <h3>ElectroHub ⚡</h3>
-  <p>Your trusted partner for hobbyist and engineering hardware components.</p>
-  <p>© 2026 ElectroHub India. All rights reserved.</p>
-</footer>
-
+   
 <script>
 const products = [
-  {id: 1, name: "ESP32 Development Board", category: "Development Boards", price: 450, rating: 4.6, reviews: 120, image: "https://upload.wikimedia.org/wikipedia/commons/thumb/c/c1/ESP32-DevKitC_V4_board_%28front%29.jpg/440px-ESP32-DevKitC_V4_board_%28front%29.jpg"},
-  {id: 2, name: "Arduino Uno R3 Compatible", category: "Development Boards", price: 550, rating: 4.5, reviews: 98, image: "https://upload.wikimedia.org/wikipedia/commons/thumb/c/c8/Arduino_Uno_-_R3.jpg/440px-Arduino_Uno_-_R3.jpg"},
-  {id: 3, name: "DHT11 Temperature Sensor", category: "Sensors", price: 120, rating: 4.3, reviews: 76, image: "https://upload.wikimedia.org/wikipedia/commons/thumb/b/b2/DHT11_Temperature_and_Humidity_Sensor_Module.jpg/440px-DHT11_Temperature_and_Humidity_Sensor_Module.jpg"},
-  {id: 4, name: "Ultrasonic Sensor HC-SR04", category: "Sensors", price: 100, rating: 4.4, reviews: 91, image: "https://upload.wikimedia.org/wikipedia/commons/thumb/2/23/HC-SR04_ultrasonic_sensor.jpg/440px-HC-SR04_ultrasonic_sensor.jpg"},
-  {id: 5, name: "Soil Moisture Sensor Module", category: "Sensors", price: 90, rating: 4.2, reviews: 64, image: "https://upload.wikimedia.org/wikipedia/commons/thumb/c/c5/Soil_moisture_sensor.jpg/440px-Soil_moisture_sensor.jpg"},
-  {id: 6, name: "PIR Motion Sensor Module", category: "Sensors", price: 110, rating: 4.1, reviews: 58, image: "https://upload.wikimedia.org/wikipedia/commons/thumb/f/f6/PIR_motion_sensor.jpg/440px-PIR_motion_sensor.jpg"},
-  {id: 7, name: "Resistor Assortment Kit (600pcs)", category: "Components", price: 150, rating: 4.5, reviews: 73, image: "https://upload.wikimedia.org/wikipedia/commons/thumb/f/fc/Carbon-film-resistors.jpg/440px-Carbon-film-resistors.jpg"},
-  {id: 8, name: "Breadboard and Jumper Wires", category: "Project Kits", price: 180, rating: 4.6, reviews: 102, image: "https://upload.wikimedia.org/wikipedia/commons/thumb/9/9a/Breadboard_Electronic_Components.jpg/440px-Breadboard_Electronic_Components.jpg"},
-  {id: 9, name: "4WD Smart Robot Car Chassis Kit", category: "Robotics", price: 850, rating: 4.7, reviews: 45, image: "https://upload.wikimedia.org/wikipedia/commons/thumb/8/86/Arduino_Robot_Car.jpg/440px-Arduino_Robot_Car.jpg"},
-  {id: 10, name: "HC-05 Bluetooth Module", category: "Communication", price: 320, rating: 4.4, reviews: 88, image: "https://upload.wikimedia.org/wikipedia/commons/thumb/9/94/HC-05_Bluetooth_Module.jpg/440px-HC-05_Bluetooth_Module.jpg"}
+ {id:1,name:"ESP32 Development Board",category:"Development Boards",price:450,rating:4.6,reviews:120,terms:"esp32 wifi bluetooth devkit",image:"https://upload.wikimedia.org/wikipedia/commons/thumb/c/c1/ESP32-DevKitC_V4_board_%28front%29.jpg/440px-ESP32-DevKitC_V4_board_%28front%29.jpg"},
+ {id:2,name:"Arduino Uno R3",category:"Development Boards",price:550,rating:4.5,reviews:98,terms:"arduino uno r3 atmega328p",image:"https://upload.wikimedia.org/wikipedia/commons/thumb/c/c8/Arduino_Uno_-_R3.jpg/440px-Arduino_Uno_-_R3.jpg"},
+ {id:3,name:"Arduino Nano",category:"Development Boards",price:300,rating:4.4,reviews:65,terms:"arduino nano atmega328",image:"https://upload.wikimedia.org/wikipedia/commons/thumb/6/6a/ArduinoNano.jpg/440px-ArduinoNano.jpg"},
+ {id:4,name:"Raspberry Pi Board",category:"Development Boards",price:2500,rating:4.7,reviews:84,terms:"raspberry pi computer",image:""},
+ {id:5,name:"DHT11 Temperature Sensor",category:"Sensors",price:120,rating:4.3,reviews:76,terms:"dht11 temperature humidity",image:"https://upload.wikimedia.org/wikipedia/commons/thumb/b/b2/DHT11_Temperature_and_Humidity_Sensor_Module.jpg/440px-DHT11_Temperature_and_Humidity_Sensor_Module.jpg"},
+ {id:6,name:"HC-SR04 Ultrasonic Sensor",category:"Sensors",price:100,rating:4.4,reviews:91,terms:"hc-sr04 ultrasonic distance",image:"https://upload.wikimedia.org/wikipedia/commons/thumb/2/23/HC-SR04_ultrasonic_sensor.jpg/440px-HC-SR04_ultrasonic_sensor.jpg"},
+ {id:7,name:"PIR Motion Sensor",category:"Sensors",price:110,rating:4.1,reviews:58,terms:"pir motion sensor",image:""},
+ {id:8,name:"Soil Moisture Sensor",category:"Sensors",price:90,rating:4.2,reviews:64,terms:"soil moisture sensor",image:""},
+ {id:9,name:"BMP280 Pressure Sensor",category:"Sensors",price:180,rating:4.4,reviews:45,terms:"bmp280 pressure sensor",image:""},
+ {id:10,name:"MQ-2 Gas Sensor",category:"Sensors",price:150,rating:4.2,reviews:40,terms:"mq2 gas sensor",image:""},
+ {id:11,name:"LDR Light Sensor",category:"Sensors",price:10,rating:4.1,reviews:35,terms:"ldr light dependent resistor",image:""},
+ {id:12,name:"DS18B20 Temperature Sensor",category:"Sensors",price:100,rating:4.5,reviews:52,terms:"ds18b20 temperature sensor",image:""},
+ {id:13,name:"MPU6050 Gyroscope Accelerometer",category:"Sensors",price:130,rating:4.5,reviews:68,terms:"mpu6050 gyroscope accelerometer",image:""},
+ {id:14,name:"IR Obstacle Sensor",category:"Sensors",price:45,rating:4.0,reviews:33,terms:"infrared obstacle sensor",image:""},
+ {id:15,name:"MAX30102 Pulse Sensor",category:"Sensors",price:220,rating:4.4,reviews:40,terms:"max30102 pulse oximeter sensor",image:""},
+ {id:16,name:"HC-05 Bluetooth Module",category:"Communication",price:320,rating:4.4,reviews:88,terms:"hc05 bluetooth wireless module",image:"https://upload.wikimedia.org/wikipedia/commons/thumb/9/94/HC-05_Bluetooth_Module.jpg/440px-HC-05_Bluetooth_Module.jpg"},
+ {id:17,name:"nRF24L01 Wireless Transceiver",category:"Communication",price:150,rating:4.3,reviews:50,terms:"nrf24l01 transceiver",image:""},
+ {id:18,name:"LoRa SX1278 Module",category:"Communication",price:350,rating:4.4,reviews:48,terms:"lora sx1278 transceiver module",image:""},
+ {id:19,name:"NEO-6M GPS Module",category:"Communication",price:300,rating:4.3,reviews:57,terms:"neo6m gps module",image:""},
+ {id:20,name:"SIM800L GSM Module",category:"Communication",price:350,rating:4.1,reviews:42,terms:"sim800l gsm module",image:""},
+ {id:21,name:"1 kΩ Resistor 1/4 W",category:"Components",price:2,rating:4.6,reviews:100,terms:"1000 ohm 1k kilo ohm resistor 1/4 watt",image:""},
+ {id:22,name:"220 Ω Resistor 1/4 W",category:"Components",price:2,rating:4.6,reviews:90,terms:"220 ohm resistor",image:""},
+ {id:23,name:"10 kΩ Resistor 1/4 W",category:"Components",price:2,rating:4.6,reviews:90,terms:"10000 ohm 10k resistor",image:""},
+ {id:24,name:"Resistor Assortment Kit",category:"Components",price:150,rating:4.5,reviews:73,terms:"resistor kit assortment",image:"https://upload.wikimedia.org/wikipedia/commons/thumb/f/fc/Carbon-film-resistors.jpg/440px-Carbon-film-resistors.jpg"},
+ {id:25,name:"100 nF Ceramic Capacitor",category:"Components",price:3,rating:4.4,reviews:45,terms:"100nf 0.1uf ceramic capacitor",image:""},
+ {id:26,name:"10 µF Electrolytic Capacitor",category:"Components",price:5,rating:4.4,reviews:45,terms:"10uf electrolytic capacitor",image:""},
+ {id:27,name:"1000 µF Electrolytic Capacitor",category:"Components",price:15,rating:4.4,reviews:45,terms:"1000uf electrolytic capacitor",image:""},
+ {id:28,name:"1N4007 Rectifier Diode",category:"Components",price:3,rating:4.5,reviews:65,terms:"1n4007 rectifier diode",image:""},
+ {id:29,name:"1N4148 Switching Diode",category:"Components",price:2,rating:4.4,reviews:50,terms:"1n4148 switching diode",image:""},
+ {id:30,name:"Bridge Rectifier Module",category:"Components",price:20,rating:4.3,reviews:35,terms:"bridge rectifier diode",image:""},
+ {id:31,name:"5 mm Red LED",category:"Components",price:2,rating:4.5,reviews:70,terms:"red 5mm led",image:""},
+ {id:32,name:"5 mm Blue LED",category:"Components",price:3,rating:4.5,reviews:70,terms:"blue 5mm led",image:""},
+ {id:33,name:"5 mm Green LED",category:"Components",price:2,rating:4.5,reviews:70,terms:"green 5mm led",image:""},
+ {id:34,name:"RGB LED",category:"Components",price:10,rating:4.4,reviews:55,terms:"rgb led common anode cathode",image:""},
+ {id:35,name:"Infrared LED",category:"Components",price:5,rating:4.3,reviews:30,terms:"infrared led",image:""},
+ {id:36,name:"BC547 NPN Transistor",category:"Components",price:3,rating:4.5,reviews:60,terms:"bc547 npn transistor",image:""},
+ {id:37,name:"2N2222 NPN Transistor",category:"Components",price:5,rating:4.4,reviews:50,terms:"2n2222 npn transistor",image:""},
+ {id:38,name:"IRFZ44N MOSFET",category:"Components",price:35,rating:4.3,reviews:40,terms:"irfz44n mosfet",image:""},
+ {id:39,name:"LM7805 Voltage Regulator",category:"Components",price:10,rating:4.4,reviews:55,terms:"lm7805 5v voltage regulator",image:""},
+ {id:40,name:"LM358 Operational Amplifier",category:"Components",price:12,rating:4.4,reviews:55,terms:"lm358 operational amplifier",image:""},
+ {id:41,name:"NE555 Timer IC",category:"Components",price:10,rating:4.5,reviews:75,terms:"ne555 timer ic",image:""},
+ {id:42,name:"L298N Motor Driver",category:"Robotics",price:180,rating:4.4,reviews:70,terms:"l298n motor driver",image:""},
+ {id:43,name:"SG90 Servo Motor",category:"Robotics",price:150,rating:4.4,reviews:65,terms:"sg90 servo motor",image:""},
+ {id:44,name:"28BYJ-48 Stepper Motor",category:"Robotics",price:130,rating:4.3,reviews:45,terms:"28byj48 stepper motor",image:""},
+ {id:45,name:"Breadboard 830 Point",category:"Project Kits",price:100,rating:4.6,reviews:102,terms:"830 point breadboard",image:""},
+ {id:46,name:"Jumper Wires Set",category:"Project Kits",price:60,rating:4.5,reviews:90,terms:"male female jumper wires",image:""},
+ {id:47,name:"Relay Module 5V",category:"Components",price:70,rating:4.4,reviews:50,terms:"5v relay module",image:""},
+ {id:48,name:"0.96 inch OLED Display",category:"Displays",price:180,rating:4.4,reviews:65,terms:"0.96 inch oled display",image:""},
+ {id:49,name:"16x2 LCD Display",category:"Displays",price:120,rating:4.3,reviews:60,terms:"16x2 lcd display",image:""},
+ {id:50,name:"DS3231 RTC Module",category:"Communication",price:100,rating:4.4,reviews:45,terms:"ds3231 rtc real time clock",image:""}
 ];
 
-let currentCategory = 'All';
+let currentCategory = "All";
 let cartCount = 0;
+let liveProducts = [];
+let searchToken = 0;
 
-function renderProducts(items) {
-  const grid = document.getElementById('product-grid');
-  grid.innerHTML = '';
-  
-  if(items.length === 0) {
-    grid.innerHTML = '<div style="grid-column:1/-1;background:white;padding:30px;text-align:center;color:#666">No matching components found.</div>';
-    return;
-  }
-
-  items.forEach(p => {
-    const card = document.createElement('div');
-    card.className = 'product-card';
-    card.innerHTML = `
-      <div>
-        <img src="${p.image}" alt="${p.name}">
-        <div class="product-title">${p.name}</div>
-        <div class="rating">★ ${p.rating} <span>(${p.reviews})</span></div>
-        <div class="price-row">₹${p.price}</div>
-      </div>
-      <button class="add-btn" onclick="addToCart('${p.name}')">Add to Cart</button>
-    `;
-    grid.appendChild(card);
-  });
+function money(n) {
+ return "₹" + Number(n).toLocaleString("en-IN");
 }
 
-function filterByCategory(category) {
-  currentCategory = category;
-  filterProducts();
+function escapeHTML(value) {
+ return String(value).replace(/[&<>"']/g, c => ({
+  "&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"
+ }[c]));
+}
+
+function cardHTML(p) {
+ const img = p.image || "";
+ const safeName = escapeHTML(p.name);
+ const price = Number.isFinite(p.price) ? money(p.price) : "Price unavailable";
+ const rating = Number.isFinite(p.rating) ? p.rating : null;
+
+ return `
+ <div class="product-card">
+  <div>
+   <img src="${escapeHTML(img)}"
+    alt="${safeName}"
+    loading="lazy"
+    onerror="this.onerror=null;this.src='https://placehold.co/400x300/f8f9fa/555?text=Image+Unavailable'">
+   <div class="product-title">${safeName}</div>
+   <div style="font-size:12px;color:#777;margin-bottom:6px">
+    ${escapeHTML(p.category || "Components")}
+   </div>
+   ${rating === null ? "" :
+    `<div class="rating">★ ${rating} <span>(${p.reviews || 0})</span></div>`}
+   <div class="price-row">${price}</div>
+   ${p.estimated ? '<div style="font-size:11px;color:#777;margin-bottom:8px">Indicative price; verify with seller.</div>' : ""}
+   ${p.source ? `<a href="${escapeHTML(p.source)}" target="_blank" rel="noopener noreferrer" style="display:block;margin-bottom:10px;font-size:12px">View image source ↗</a>` : ""}
+  </div>
+  <button class="add-btn" onclick="addToCart(${Number(p.id)})">Add to Cart</button>
+ </div>`;
+}
+
+function renderProducts(items) {
+ const grid = document.getElementById("product-grid");
+
+ if (!items.length) {
+  grid.innerHTML = '<div style="grid-column:1/-1;background:white;padding:30px;text-align:center;color:#666">No matching components found. Try another search.</div>';
+  return;
+ }
+
+ grid.innerHTML = items.map(cardHTML).join("");
+}
+
+function getSelectedPrices() {
+ return [...document.querySelectorAll(".price-filter:checked")]
+  .map(x => x.value);
+}
+
+function applyFilters() {
+ const query = document.getElementById("search").value.trim().toLowerCase();
+ const selectedPrices = getSelectedPrices();
+ let list = [...products, ...liveProducts];
+
+ list = list.filter(p => {
+  const text = [p.name,p.category,p.terms,p.partNumber,p.description]
+   .filter(Boolean).join(" ").toLowerCase();
+
+  const matchesSearch = !query || text.includes(query);
+  const matchesCategory = currentCategory === "All" ||
+    p.category === currentCategory;
+
+  let matchesPrice = true;
+  if (selectedPrices.length) {
+   if (!Number.isFinite(p.price)) {
+    matchesPrice = false;
+   } else {
+    matchesPrice = selectedPrices.some(v => {
+     if (v === "200") return p.price < 200;
+     if (v === "500") return p.price >= 200 && p.price <= 500;
+     if (v === "1000") return p.price > 500 && p.price <= 1000;
+     if (v === "above") return p.price > 1000;
+     return false;
+    });
+   }
+  }
+  return matchesSearch && matchesCategory && matchesPrice;
+ });
+
+ const mode = document.getElementById("sort-select").value;
+ if (mode === "low-high") {
+  list.sort((a,b) => (a.price ?? Infinity) - (b.price ?? Infinity));
+ } else if (mode === "high-low") {
+  list.sort((a,b) => (b.price ?? -Infinity) - (a.price ?? -Infinity));
+ } else if (mode === "rating") {
+  list.sort((a,b) => (b.rating ?? 0) - (a.rating ?? 0));
+ }
+
+ renderProducts(list);
 }
 
 function filterProducts() {
-  const query = document.getElementById('search').value.toLowerCase();
-  
-  let filtered = products.filter(p => {
-    const matchesCat = currentCategory === 'All' || p.category === currentCategory;
-    const matchesSearch = p.name.toLowerCase().includes(query) || p.category.toLowerCase().includes(query);
-    return matchesCat && matchesSearch;
-  });
+ applyFilters();
 
-  renderProducts(filtered);
+ // For a typed query, also look for public image matches.
+ const q = document.getElementById("search").value.trim();
+ if (q.length >= 2) {
+  clearTimeout(window.imageSearchTimer);
+  window.imageSearchTimer = setTimeout(() => searchPublicImages(q), 700);
+ } else {
+  liveProducts = [];
+ }
+}
+
+function filterByCategory(category) {
+ currentCategory = category;
+
+ const radioMap = {
+  "All":0,
+  "Development Boards":1,
+  "Sensors":2,
+  "Components":3,
+  "Robotics":4,
+  "Communication":5,
+  "Project Kits":6
+ };
+
+ const radios = document.querySelectorAll('input[name="cat"]');
+ radios.forEach((radio,index) => {
+  radio.checked = index === (radioMap[category] ?? -1);
+ });
+
+ applyFilters();
 }
 
 function sortProducts() {
-  const mode = document.getElementById('sort-select').value;
-  let sorted = [...products];
-
-  if(mode === 'low-high') sorted.sort((a,b) => a.price - b.price);
-  if(mode === 'high-low') sorted.sort((a,b) => b.price - a.price);
-  if(mode === 'rating') sorted.sort((a,b) => b.rating - a.rating);
-
-  renderProducts(sorted);
+ applyFilters();
 }
 
-function addToCart(name) {
-  cartCount++;
-  document.getElementById('cart-count').textContent = cartCount;
-  alert(name + " added to your cart!");
+function addToCart(id) {
+ const p = [...products,...liveProducts].find(item => item.id === id);
+ if (!p) return;
+
+ cartCount++;
+ document.getElementById("cart-count").textContent = cartCount;
+ alert(p.name + " added to your cart.");
 }
 
-// Initial render
+async function searchPublicImages(query) {
+ const token = ++searchToken;
+ const status = document.getElementById("product-grid");
+
+ try {
+  const params = new URLSearchParams({
+   action:"query",
+   generator:"search",
+   gsrsearch:query + " electronic component",
+   gsrnamespace:"6",
+   gsrlimit:"15",
+   prop:"imageinfo",
+   iiprop:"url",
+   iiurlwidth:"440",
+   format:"json",
+   origin:"*"
+  });
+
+  const response = await fetch(
+   "https://commons.wikimedia.org/w/api.php?" + params.toString()
+  );
+
+  if (!response.ok) throw new Error("Image search failed");
+
+  const data = await response.json();
+  if (token !== searchToken) return;
+
+  const pages = Object.values(data.query?.pages || {});
+  const known = products.filter(p => {
+   const text = (p.name + " " + p.terms).toLowerCase();
+   return query.toLowerCase().split(/\s+/).some(word =>
+    word.length > 1 && text.includes(word)
+   );
+  });
+
+  const knownIds = new Set(known.map(p => p.id));
+  liveProducts = [];
+
+  pages.forEach((page,index) => {
+   const info = page.imageinfo?.[0];
+   if (!info || !info.thumburl) return;
+
+   const name = page.title.replace(/^File:/,"");
+   const alreadyShown = known.some(p =>
+    p.name.toLowerCase() === name.toLowerCase()
+   );
+   if (alreadyShown) return;
+
+   liveProducts.push({
+    id:100000 + index,
+    name:name,
+    category:currentCategory === "All" ? "Components" : currentCategory,
+    price:null,
+    rating:null,
+    reviews:0,
+    image:info.thumburl,
+    source:info.descriptionurl || info.url,
+    terms:query,
+    estimated:false
+   });
+  });
+
+  // Keep catalogue products and live image matches together.
+  applyFilters();
+
+ } catch (error) {
+  // Keep the original catalogue working even if the image service is unavailable.
+  console.warn("Public image search unavailable",error);
+ }
+}
+
+// Make catalogue item images use public image search if no image is supplied.
+function enhanceMissingImages() {
+ const missing = products.filter(p => !p.image);
+ missing.forEach(p => {
+  p.image = "https://placehold.co/400x300/f8f9fa/555?text=" +
+    encodeURIComponent(p.name);
+ });
+}
+
+// Initial page
+enhanceMissingImages();
 renderProducts(products);
 </script>
-
-</body>
-</html>
