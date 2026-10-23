@@ -4,226 +4,256 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>ElectroHub | Electronics Components</title>
+<title>ElectroHub - Electronics Store</title>
 
 <style>
 *{box-sizing:border-box}
-body{margin:0;font-family:Arial,sans-serif;background:#f3f6fb;color:#172033}
-header{background:#101d36;color:white;padding:24px 16px;text-align:center}
-header h1{margin:0 0 8px;color:#66e3ff}
-header p{margin:0;color:#d8e3f5}
-.search-area{max-width:900px;margin:22px auto;padding:0 15px}
-.search-row{display:flex;gap:8px}
-input,select,button{font-size:16px;padding:13px;border-radius:9px}
-input{flex:1;min-width:0;border:1px solid #cbd5e1}
-button{border:0;background:#0879e8;color:white;cursor:pointer}
-select{width:100%;border:1px solid #cbd5e1;background:white;margin-top:10px}
-h2{margin:22px 15px 12px}
-.note{margin:12px 15px;color:#5a6577;font-size:14px}
-#status{padding:10px 15px;color:#42516a}
-.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:16px;padding:15px}
-.card{background:white;border-radius:14px;overflow:hidden;box-shadow:0 3px 12px #17203312}
-.card img{width:100%;height:180px;object-fit:contain;background:#fff;padding:10px}
-.card-content{padding:14px}
-.card h3{margin:0 0 8px;font-size:18px}
-.price{font-size:20px;font-weight:bold;color:#087b45;margin:8px 0}
-.muted{font-size:13px;color:#667085}
-.card a{display:inline-block;margin-top:10px;color:#0769cb;text-decoration:none}
-footer{text-align:center;padding:25px;background:#101d36;color:white;margin-top:25px}
+body{margin:0;font-family:Arial,sans-serif;background:#f1f3f6;color:#212121}
+.topbar{background:#2874f0;color:white;padding:14px 5%;display:flex;align-items:center;gap:18px;flex-wrap:wrap}
+.logo{font-size:25px;font-weight:bold;color:white}
+.logo span{color:#ffe500}
+.searchbox{display:flex;flex:1;min-width:220px;max-width:650px}
+.searchbox input{width:100%;padding:12px;border:0;border-radius:3px 0 0 3px;font-size:15px;outline:none}
+.searchbox button{background:#ffcc00;color:#222;border:0;padding:0 20px;font-weight:bold;cursor:pointer;border-radius:0 3px 3px 0}
+.topnote{font-size:13px}
+.categories{display:flex;justify-content:space-around;gap:12px;background:white;padding:16px;box-shadow:0 2px 5px #0001;flex-wrap:wrap}
+.categories button{border:0;background:white;font-weight:bold;cursor:pointer;color:#333}
+.categories button:hover{color:#2874f0}
+.banner{margin:14px;background:linear-gradient(110deg,#172c65,#2874f0);color:white;padding:28px 22px;border-radius:4px}
+.banner h1{margin:0 0 8px;font-size:27px}
+.banner p{margin:0;line-height:1.5}
+.toolbar{margin:14px;background:white;padding:14px;display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap}
+.toolbar select{padding:9px;border:1px solid #ddd;border-radius:3px}
+#status{padding:12px 16px;color:#555}
+.products{display:grid;grid-template-columns:repeat(auto-fit,minmax(205px,1fr));gap:12px;margin:14px}
+.card{background:white;border-radius:3px;padding:12px;transition:box-shadow .2s;min-width:0}
+.card:hover{box-shadow:0 3px 14px #0002}
+.card img{width:100%;height:175px;object-fit:contain;background:white}
+.card h3{font-size:16px;margin:12px 0 7px;overflow-wrap:anywhere}
+.tag{font-size:12px;color:#777}
+.price{font-size:21px;font-weight:bold;margin:9px 0;color:#212121}
+.estimate{font-size:12px;color:#777;line-height:1.4}
+.card a{display:inline-block;margin-top:12px;text-decoration:none;background:#2874f0;color:white;padding:10px 12px;border-radius:3px;font-size:13px}
+.card a:hover{background:#1558c0}
+footer{background:#172337;color:white;margin-top:25px;padding:25px;text-align:center;font-size:14px}
+.empty{background:white;margin:14px;padding:25px;text-align:center}
+@media(max-width:500px){
+ .topbar{padding:13px}
+ .logo{font-size:22px}
+ .banner h1{font-size:22px}
+ .products{grid-template-columns:repeat(2,minmax(0,1fr));gap:8px;margin:8px}
+ .card{padding:8px}
+ .card img{height:125px}
+ .card h3{font-size:14px}
+ .price{font-size:17px}
+}
 </style>
 </head>
 
 <body>
-<header>
-  <h1>⚡ ElectroHub</h1>
-  <p>Search electronics components from beginner to professional</p>
+
+<header class="topbar">
+  <div class="logo">Electro<span>Hub</span></div>
+  <div class="searchbox">
+    <input id="search" placeholder="Search for Arduino, ESP32, sensors..." aria-label="Search components">
+    <button onclick="searchComponents()">SEARCH</button>
+  </div>
+  <div class="topnote">Electronics for Every Project ⚡</div>
 </header>
 
-<section class="search-area">
-  <div class="search-row">
-    <input id="search" placeholder="Search ESP32, Arduino, sensor, LED..." />
-    <button onclick="searchComponents()">Search</button>
-  </div>
+<nav class="categories">
+  <button onclick="quickSearch('Arduino')">Arduino</button>
+  <button onclick="quickSearch('ESP32')">ESP32</button>
+  <button onclick="quickSearch('sensor')">Sensors</button>
+  <button onclick="quickSearch('Raspberry Pi')">Raspberry Pi</button>
+  <button onclick="quickSearch('LED')">LEDs</button>
+  <button onclick="quickSearch('robotics motor')">Robotics</button>
+  <button onclick="quickSearch('electronic circuit board')">Circuit boards</button>
+</nav>
 
-  <select id="category" onchange="searchComponents()">
-    <option value="">All categories</option>
-    <option value="microcontroller">Arduino / ESP32 / Raspberry Pi</option>
-    <option value="sensor">Sensors</option>
-    <option value="electronic component">Basic components</option>
-    <option value="robotics">Robotics</option>
-    <option value="communication module">Communication modules</option>
-    <option value="display module">Displays</option>
+<section class="banner">
+  <h1>Welcome to ElectroHub</h1>
+  <p>Discover electronics components, development boards, sensors and modules for your next project.</p>
+</section>
+
+<section class="toolbar">
+  <strong>Electronics Components</strong>
+  <select id="sort" onchange="sortResults()">
+    <option value="relevance">Sort: Relevance</option>
+    <option value="name">Name: A to Z</option>
+    <option value="price">Estimated price: Low to high</option>
   </select>
 </section>
 
-<h2>Component results</h2>
-<p class="note">
-  Photos are retrieved from Wikimedia Commons. Prices shown for selected
-  components are estimates, not live shop prices. Other results may have no price.
-</p>
-
-<div id="status">Search for a component to see matching images.</div>
-<div id="results" class="grid"></div>
+<div id="status">Search for a component to find matching images and catalogue prices.</div>
+<section id="results" class="products"></section>
 
 <footer>
-  <p>ElectroHub — Explore Electronics</p>
-  <p>Always verify component specifications and seller prices before purchasing.</p>
+  <h3>ElectroHub ⚡</h3>
+  <p>Your electronics component discovery store</p>
+  <p>Prices marked as estimates are not live seller quotations. Check the seller before buying.</p>
 </footer>
 
 <script>
-const knownComponents = {
-  "arduino uno": {price:"₹400–₹900", type:"Development board"},
-  "arduino nano": {price:"₹250–₹600", type:"Development board"},
-  "esp32": {price:"₹300–₹700", type:"Development board"},
-  "raspberry pi": {price:"Model-dependent", type:"Single-board computer"},
-  "ultrasonic sensor": {price:"₹60–₹150", type:"Distance sensor"},
-  "dht11": {price:"₹70–₹150", type:"Temperature and humidity sensor"},
-  "dht22": {price:"₹180–₹350", type:"Temperature and humidity sensor"},
-  "pir sensor": {price:"₹50–₹150", type:"Motion sensor"},
-  "ir sensor": {price:"₹20–₹100", type:"Infrared sensor"},
-  "ldr": {price:"₹5–₹30", type:"Light sensor"},
-  "relay module": {price:"₹60–₹180", type:"Switching module"},
-  "breadboard": {price:"₹60–₹200", type:"Prototyping board"},
-  "led": {price:"₹2–₹20", type:"Light-emitting diode"},
-  "servo motor": {price:"₹100–₹350", type:"Motor"},
-  "stepper motor": {price:"₹150–₹600", type:"Motor"},
-  "gps module": {price:"₹200–₹600", type:"GPS module"},
-  "nrf24l01": {price:"₹100–₹300", type:"Wireless module"},
-  "oled display": {price:"₹150–₹400", type:"Display module"},
-  "soil moisture sensor": {price:"₹30–₹150", type:"Soil sensor"},
-  "gas sensor": {price:"₹100–₹300", type:"Gas sensor"}
-};
+const catalogue = [
+ {terms:["arduino uno","arduino"],name:"Arduino Uno R3",price:400,max:900,type:"Development board"},
+ {terms:["arduino nano"],name:"Arduino Nano",price:250,max:600,type:"Development board"},
+ {terms:["esp32"],name:"ESP32 Development Board",price:300,max:700,type:"Wi-Fi and Bluetooth board"},
+ {terms:["raspberry pi"],name:"Raspberry Pi",price:null,max:null,type:"Single-board computer"},
+ {terms:["ultrasonic sensor","hc-sr04"],name:"HC-SR04 Ultrasonic Sensor",price:60,max:150,type:"Distance sensor"},
+ {terms:["dht11"],name:"DHT11 Sensor",price:70,max:150,type:"Temperature and humidity"},
+ {terms:["dht22"],name:"DHT22 Sensor",price:180,max:350,type:"Temperature and humidity"},
+ {terms:["pir sensor"],name:"PIR Motion Sensor",price:50,max:150,type:"Motion detection"},
+ {terms:["ir sensor"],name:"IR Sensor Module",price:20,max:100,type:"Infrared sensor"},
+ {terms:["ldr"],name:"LDR Light Sensor",price:5,max:30,type:"Light sensing"},
+ {terms:["relay module","relay"],name:"Relay Module",price:60,max:180,type:"Electronic switching"},
+ {terms:["breadboard"],name:"Breadboard",price:60,max:200,type:"Prototyping"},
+ {terms:["led"],name:"LED",price:2,max:20,type:"Light-emitting diode"},
+ {terms:["servo motor","servo"],name:"Servo Motor",price:100,max:350,type:"Motor"},
+ {terms:["stepper motor"],name:"Stepper Motor",price:150,max:600,type:"Motor"},
+ {terms:["gps module"],name:"GPS Module",price:200,max:600,type:"Navigation module"},
+ {terms:["nrf24l01"],name:"nRF24L01 Wireless Module",price:100,max:300,type:"Wireless communication"},
+ {terms:["oled display","oled"],name:"OLED Display Module",price:150,max:400,type:"Display"},
+ {terms:["soil moisture sensor"],name:"Soil Moisture Sensor",price:30,max:150,type:"Agriculture sensor"},
+ {terms:["gas sensor","mq-2"],name:"Gas Sensor Module",price:100,max:300,type:"Gas detection"},
+ {terms:["buzzer"],name:"Buzzer",price:10,max:50,type:"Sound component"},
+ {terms:["resistor"],name:"Resistor",price:1,max:10,type:"Passive component"},
+ {terms:["capacitor"],name:"Capacitor",price:1,max:30,type:"Passive component"},
+ {terms:["transistor"],name:"Transistor",price:2,max:30,type:"Semiconductor"},
+ {terms:["diode"],name:"Diode",price:1,max:20,type:"Semiconductor"},
+ {terms:["jumper wire"],name:"Jumper Wires",price:40,max:150,type:"Prototyping accessories"},
+ {terms:["l298n","motor driver"],name:"Motor Driver Module",price:100,max:300,type:"Robotics module"},
+ {terms:["bluetooth module","hc-05"],name:"HC-05 Bluetooth Module",price:180,max:400,type:"Communication module"},
+ {terms:["wifi module"],name:"Wi-Fi Module",price:100,max:400,type:"Communication module"},
+ {terms:["voltage regulator"],name:"Voltage Regulator",price:5,max:100,type:"Power electronics"},
+ {terms:["battery"],name:"Battery",price:30,max:500,type:"Power supply"}
+];
 
-function getPrice(query) {
-  const q = query.toLowerCase().trim();
-  for (const name in knownComponents) {
-    if (q.includes(name) || name.includes(q)) {
-      return knownComponents[name];
-    }
-  }
-  return null;
+let currentResults = [];
+let currentQuery = "";
+
+function quickSearch(term){
+ document.getElementById("search").value=term;
+ searchComponents();
 }
 
-function createCard(title, imageUrl, pageUrl, query) {
-  const info = getPrice(query);
-  const card = document.createElement("article");
-  card.className = "card";
-
-  const img = document.createElement("img");
-  img.src = imageUrl;
-  img.alt = title;
-  img.loading = "lazy";
-  img.onerror = () => {
-    img.alt = "Image unavailable";
-    img.style.display = "none";
-  };
-
-  const content = document.createElement("div");
-  content.className = "card-content";
-
-  const heading = document.createElement("h3");
-  heading.textContent = title.replace("File:", "");
-
-  const type = document.createElement("p");
-  type.className = "muted";
-  type.textContent = info ? info.type : "Image search result";
-
-  const price = document.createElement("div");
-  price.className = "price";
-  price.textContent = info ? info.price : "Price unavailable";
-
-  const disclaimer = document.createElement("p");
-  disclaimer.className = "muted";
-  disclaimer.textContent = info
-    ? "Estimated price; confirm with a seller."
-    : "No verified price available for this result.";
-
-  const link = document.createElement("a");
-  link.href = pageUrl;
-  link.target = "_blank";
-  link.rel = "noopener noreferrer";
-  link.textContent = "View image and source ↗";
-
-  content.append(heading, type, price, disclaimer, link);
-  card.append(img, content);
-  document.getElementById("results").appendChild(card);
+function findCatalogueItem(query){
+ const q=query.toLowerCase();
+ return catalogue.find(item=>item.terms.some(term=>q.includes(term))) || null;
 }
 
-async function searchComponents() {
-  const input = document.getElementById("search").value.trim();
-  const category = document.getElementById("category").value;
-  const results = document.getElementById("results");
-  const status = document.getElementById("status");
+function formatPrice(item){
+ if(!item || item.price===null) return "Price unavailable";
+ return item.price===item.max ? "₹"+item.price : "₹"+item.price+"–₹"+item.max;
+}
 
-  if (!input && !category) {
-    status.textContent = "Enter a component name or select a category.";
-    return;
-  }
+function createCard(page, query){
+ const image=page.imageinfo && page.imageinfo[0];
+ if(!image) return null;
 
-  const query = input || category;
-  const searchTerm = category && input
-    ? input + " " + category
-    : query;
+ const item=findCatalogueItem(query);
+ const title=page.title.replace(/^File:/,"");
+ const card=document.createElement("article");
+ card.className="card";
 
-  results.replaceChildren();
-  status.textContent = "Searching for component images...";
+ const img=document.createElement("img");
+ img.src=image.thumburl || image.url;
+ img.alt=title;
+ img.loading="lazy";
+ img.onerror=()=>{img.alt="Image unavailable";img.style.opacity=".3";};
 
-  const params = new URLSearchParams({
-    action: "query",
-    generator: "search",
-    gsrsearch: searchTerm,
-    gsrnamespace: "6",
-    gsrlimit: "20",
-    prop: "imageinfo",
-    iiprop: "url",
-    iiurlwidth: "500",
-    format: "json",
-    origin: "*"
+ const heading=document.createElement("h3");
+ heading.textContent=item ? item.name : title;
+
+ const type=document.createElement("div");
+ type.className="tag";
+ type.textContent=item ? item.type : "Image search match";
+
+ const price=document.createElement("div");
+ price.className="price";
+ price.textContent=formatPrice(item);
+
+ const estimate=document.createElement("p");
+ estimate.className="estimate";
+ estimate.textContent=item
+  ? "Estimated range only. Actual price varies by seller and model."
+  : "No verified price for this image. Search the exact model to compare prices.";
+
+ const link=document.createElement("a");
+ link.href=image.descriptionurl || image.url;
+ link.target="_blank";
+ link.rel="noopener noreferrer";
+ link.textContent="VIEW IMAGE / SOURCE";
+
+ card.append(img,heading,type,price,estimate,link);
+ return card;
+}
+
+async function searchComponents(){
+ const query=document.getElementById("search").value.trim();
+ const status=document.getElementById("status");
+ const results=document.getElementById("results");
+ if(!query){
+  status.textContent="Please enter a component name.";
+  return;
+ }
+
+ currentQuery=query;
+ results.replaceChildren();
+ status.textContent="Finding matching component images...";
+
+ const params=new URLSearchParams({
+  action:"query",
+  generator:"search",
+  gsrsearch:query+" electronics component",
+  gsrnamespace:"6",
+  gsrlimit:"30",
+  prop:"imageinfo",
+  iiprop:"url",
+  iiurlwidth:"500",
+  format:"json",
+  origin:"*"
+ });
+
+ try{
+  const response=await fetch("https://commons.wikimedia.org/w/api.php?"+params);
+  if(!response.ok) throw new Error("Image search unavailable");
+  const data=await response.json();
+  const pages=Object.values(data.query?.pages || {});
+  currentResults=[];
+
+  pages.forEach(page=>{
+   const card=createCard(page,query);
+   if(card) currentResults.push({card,name:card.querySelector("h3").textContent,price:findCatalogueItem(query)?.price});
   });
 
-  try {
-    const response = await fetch(
-      "https://commons.wikimedia.org/w/api.php?" + params.toString()
-    );
-
-    if (!response.ok) throw new Error("Image search failed");
-
-    const data = await response.json();
-    const pages = Object.values(data.query?.pages || {});
-
-    if (!pages.length) {
-      status.textContent =
-        "No matching images found. Try a different component name.";
-      return;
-    }
-
-    let count = 0;
-
-    pages.forEach(page => {
-      const image = page.imageinfo?.[0];
-      if (!image?.thumburl && !image?.url) return;
-
-      createCard(
-        page.title,
-        image.thumburl || image.url,
-        image.descriptionurl || image.url,
-        input
-      );
-      count++;
-    });
-
-    status.textContent = count
-      ? count + " image results found. Prices are only shown for selected catalogue items."
-      : "No usable images found. Try another search.";
-  } catch (error) {
-    status.textContent =
-      "Could not load images. Check your internet connection and try again.";
+  if(!currentResults.length){
+   status.textContent="No matching images found. Try another component name.";
+   return;
   }
+
+  sortResults();
+  status.textContent=currentResults.length+" image results found for “"+query+"”. Prices are estimates where shown.";
+ }catch(error){
+  status.textContent="Could not load images. Check your internet connection and try again.";
+ }
 }
 
-document.getElementById("search").addEventListener("keydown", event => {
-  if (event.key === "Enter") searchComponents();
+function sortResults(){
+ const results=document.getElementById("results");
+ const mode=document.getElementById("sort").value;
+ const sorted=[...currentResults];
+
+ if(mode==="name") sorted.sort((a,b)=>a.name.localeCompare(b.name));
+ if(mode==="price") sorted.sort((a,b)=>(a.price??Infinity)-(b.price??Infinity));
+
+ results.replaceChildren(...sorted.map(item=>item.card));
+}
+
+document.getElementById("search").addEventListener("keydown",e=>{
+ if(e.key==="Enter") searchComponents();
 });
 </script>
+
 </body>
 </html>
