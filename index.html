@@ -3,294 +3,278 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>ElectroHub - Electronics Store</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ElectroHub | Electronics for Everyone</title>
 <style>
+:root{--blue:#1264d8;--dark:#10233f;--yellow:#ffe500;--bg:#f3f6fb;--green:#087f5b}
 *{box-sizing:border-box}
-body{margin:0;font-family:Arial,sans-serif;background:#f1f4f9;color:#172b4d}
-header{background:#0866d9;color:white;padding:15px 4%;display:flex;align-items:center;gap:18px;flex-wrap:wrap}
-.logo{font-size:26px;font-weight:bold}.logo span{color:#ffdf24}
-.search{display:flex;flex:1;min-width:190px;background:white;border-radius:6px;overflow:hidden}
-.search input{width:100%;min-width:0;padding:13px;border:0;outline:none}
-.search button{background:#ffdf24;border:0;padding:0 18px;font-size:19px}
-.headbtn{background:transparent;color:white;border:0;font-weight:bold;padding:8px}
-nav{display:flex;overflow-x:auto;background:#0649ad;padding:0 3%}
-nav button{border:0;background:none;color:white;padding:15px;white-space:nowrap;cursor:pointer}
-nav button:hover{color:#ffdf24}
-main{max-width:1450px;margin:auto;padding:18px}
-.categories{display:grid;grid-template-columns:repeat(6,1fr);gap:12px;margin-bottom:18px}
-.category{background:white;border:1px solid #dce5f1;border-radius:9px;padding:10px 5px;text-align:center;cursor:pointer;font-weight:bold;color:#172b4d}
-.category img{width:100%;height:75px;object-fit:contain}
-.category div{font-size:12px;margin-top:7px}
-.category.active{border:2px solid #0866d9;background:#eaf3ff}
-.hero{display:grid;grid-template-columns:1fr 1fr;align-items:center;gap:20px;padding:28px;background:linear-gradient(110deg,#e5f2ff,#c7e3ff);border-radius:12px;margin-bottom:22px}
-.hero h1{font-size:clamp(26px,4vw,42px);margin:0 0 12px;line-height:1.15}
-.hero h1 span{color:#0866d9}
-.hero p{line-height:1.6;color:#435b7b}
-.hero img{width:100%;height:220px;object-fit:contain}
-.yellow{background:#ffdf24;border:0;border-radius:6px;padding:12px 20px;font-weight:bold;cursor:pointer}
-.layout{display:grid;grid-template-columns:210px 1fr;gap:18px}
-.filters,.product{background:white;border:1px solid #dce5f1;border-radius:9px;padding:14px}
-.filters h3{margin-top:0}
-.filters label{display:block;padding:9px 0;font-size:14px}
-.filters input{accent-color:#0866d9}
-.products-head{display:flex;justify-content:space-between;align-items:center;gap:8px;margin-bottom:14px}
-.products-head h2{font-size:23px;margin:0}
-select{padding:9px;border:1px solid #dce5f1;border-radius:6px;background:white;max-width:150px}
-.count{font-size:13px;color:#63738b;margin-bottom:12px}
-.grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:13px}
-.product{padding:11px;min-width:0}
-.product img{width:100%;height:140px;object-fit:contain;display:block}
-.product h3{font-size:14px;line-height:1.4;min-height:40px;margin:8px 0}
-.rating{font-size:12px;color:#596d88;margin:8px 0}
-.star{color:#e6ad00}
-.price{font-size:20px;font-weight:bold;color:#0866d9}
-.product small{display:block;color:#16804a;margin-top:7px}
-.add{width:100%;margin-top:12px;background:#ffdf24;border:0;border-radius:6px;padding:11px 4px;font-weight:bold;cursor:pointer}
-.add:hover,.yellow:hover{background:#ffd000}
-.empty{background:white;border-radius:9px;padding:30px;text-align:center;grid-column:1/-1}
-footer{background:#082b59;color:white;text-align:center;padding:25px;margin-top:30px}
-footer p{font-size:13px;color:#d1def0}
-@media(max-width:950px){.grid{grid-template-columns:repeat(3,minmax(0,1fr))}.categories{grid-template-columns:repeat(3,1fr)}}
-@media(max-width:600px){
-header{gap:9px;padding:12px}.logo{font-size:23px}.search{order:3;flex-basis:100%}
-main{padding:10px}.hero{grid-template-columns:1fr;padding:20px;gap:5px}.hero img{height:150px}
-.layout{grid-template-columns:1fr}.filters{padding:10px}
-.filter-options{display:grid;grid-template-columns:repeat(2,minmax(0,1fr))}
-.grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:9px}
-.product{padding:8px}.product img{height:110px}.product h3{font-size:12px}
-.price{font-size:17px}.products-head h2{font-size:19px}
-}
+body{margin:0;font-family:Arial,Helvetica,sans-serif;background:var(--bg);color:#182338}
+button,input,select{font:inherit}
+button{cursor:pointer}
+.top{background:var(--dark);color:white;padding:10px 5%;display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;font-size:13px}
+header{background:var(--blue);color:white;padding:16px 5%;display:flex;align-items:center;gap:18px;flex-wrap:wrap}
+.logo{font-size:27px;font-weight:900;letter-spacing:-1px}
+.logo span{color:var(--yellow)}
+.search{flex:1;min-width:210px;display:flex}
+.search input{width:100%;padding:13px;border:0;border-radius:6px 0 0 6px;outline:none}
+.search button{border:0;background:var(--yellow);padding:0 18px;border-radius:0 6px 6px 0;font-weight:bold}
+.cartbtn{background:white;color:var(--dark);padding:12px 15px;border:0;border-radius:6px;font-weight:bold}
+nav{display:flex;gap:8px;overflow-x:auto;padding:12px 5%;background:white;box-shadow:0 2px 5px #0000000d}
+nav a{color:#26354c;text-decoration:none;font-size:13px;font-weight:bold;white-space:nowrap;padding:8px 10px;border-radius:5px}
+nav a:hover{background:#eaf1ff;color:var(--blue)}
+main{max-width:1450px;margin:auto;padding:22px 4%}
+.hero{background:linear-gradient(120deg,#0b3473,#1479e8);color:white;border-radius:15px;padding:32px;display:grid;grid-template-columns:1.5fr 1fr;gap:20px;align-items:center;overflow:hidden}
+.hero h1{font-size:clamp(27px,4vw,44px);margin:8px 0}
+.hero p{line-height:1.65;color:#e6efff}
+.hero .tag{background:var(--yellow);color:#14233c;padding:7px 10px;border-radius:5px;font-size:12px;font-weight:bold}
+.hero-art{font-size:clamp(55px,9vw,100px);text-align:center;letter-spacing:8px}
+.hero button{background:var(--yellow);border:0;border-radius:7px;padding:13px 18px;font-weight:bold}
+.benefits{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin:18px 0}
+.benefit{background:white;border-radius:9px;padding:16px;font-size:13px;box-shadow:0 2px 7px #162b4a08}
+.benefit b{display:block;margin-bottom:6px}
+.section-title{display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap;margin:27px 0 15px}
+.section-title h2{margin:0;font-size:23px}
+.muted{color:#68768b;font-size:13px}
+.categories{display:grid;grid-template-columns:repeat(6,1fr);gap:12px}
+.cat{border:1px solid #e5eaf2;background:white;border-radius:10px;padding:15px 8px;text-align:center;color:#17253c}
+.cat .emoji{font-size:30px;display:block;margin-bottom:8px}
+.cat b{font-size:12px}
+.cat:hover,.cat.active{border-color:var(--blue);background:#eaf2ff;color:var(--blue)}
+.filters{display:flex;gap:10px;flex-wrap:wrap;background:white;padding:13px;border-radius:10px;margin:15px 0}
+.filters input,.filters select{padding:10px;border:1px solid #dce3ee;border-radius:6px;background:white;min-width:140px;flex:1}
+.filters button{border:0;background:#eaf1ff;color:var(--blue);border-radius:6px;padding:10px 14px}
+.product-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:15px}
+.product{background:white;border:1px solid #e8edf4;border-radius:10px;overflow:hidden;display:flex;flex-direction:column;transition:.2s}
+.product:hover{transform:translateY(-3px);box-shadow:0 8px 22px #172c4a12}
+.photo{height:155px;background:linear-gradient(135deg,#f5f8fd,#e7eef9);display:flex;align-items:center;justify-content:center;position:relative;padding:12px}
+.photo img{width:100%;height:100%;object-fit:contain}
+.photo .fallback{font-size:65px}
+.level{position:absolute;left:9px;top:9px;font-size:10px;font-weight:bold;background:#e2f7ec;color:#087f5b;padding:5px 7px;border-radius:4px}
+.info{padding:13px;display:flex;flex-direction:column;flex:1}
+.category{font-size:10px;text-transform:uppercase;color:var(--blue);font-weight:bold;letter-spacing:.5px}
+.info h3{font-size:14px;line-height:1.4;margin:8px 0;min-height:39px}
+.desc{font-size:12px;line-height:1.5;color:#68768b;flex:1}
+.spec{font-size:11px;color:#526177;margin:9px 0}
+.price{font-size:19px;font-weight:800;margin:5px 0 11px}
+.price small{font-size:11px;color:#758197;font-weight:normal}
+.actions{display:flex;gap:7px}
+.actions button{flex:1;padding:9px 5px;border-radius:5px;font-size:12px;font-weight:bold}
+.details{background:white;border:1px solid #d7e1ef;color:var(--dark)}
+.add{background:var(--yellow);border:1px solid var(--yellow);color:#14233c}
+.empty{grid-column:1/-1;background:white;padding:35px;text-align:center;border-radius:10px;color:#68768b}
+.project-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+.project{background:white;border-radius:10px;padding:20px;border:1px solid #e6ebf3}
+.project .emoji{font-size:35px}
+.project h3{margin:12px 0 8px}
+.project p{font-size:13px;line-height:1.6;color:#68768b}
+.project button{border:0;background:#eaf1ff;color:var(--blue);padding:10px;border-radius:6px;font-weight:bold}
+.learning{background:#eaf2ff;border-radius:12px;padding:24px;margin-top:25px}
+.learning h2{margin-top:0}
+.learning-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:15px}
+.learning-grid div{background:white;padding:15px;border-radius:8px;font-size:13px;line-height:1.6}
+footer{margin-top:35px;background:var(--dark);color:white;padding:30px 5%;line-height:1.8}
+footer p{color:#c4d0e1;font-size:13px}
+.modal-bg{position:fixed;inset:0;background:#08162dcc;display:none;align-items:center;justify-content:center;padding:16px;z-index:10}
+.modal{background:white;border-radius:12px;padding:24px;max-width:480px;width:100%;max-height:90vh;overflow:auto}
+.modal h2{margin-top:0}
+.modal button{padding:11px;border:0;border-radius:6px;background:var(--blue);color:white}
+.modal .close{float:right;background:#edf1f6;color:#17253c}
+.cart-line{display:flex;justify-content:space-between;gap:12px;padding:12px 0;border-bottom:1px solid #e6ebf3;font-size:13px}
+.cart-line button{padding:5px 8px;background:#ffe8e8;color:#a11}
+@media(max-width:950px){.product-grid{grid-template-columns:repeat(3,minmax(0,1fr))}.categories{grid-template-columns:repeat(4,1fr)}.benefits{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:620px){main{padding:15px 3%}.hero{grid-template-columns:1fr;padding:23px}.hero-art{font-size:48px}.product-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:9px}.photo{height:125px}.info{padding:10px}.info h3{font-size:13px}.actions{flex-direction:column}.categories{grid-template-columns:repeat(3,1fr)}.project-grid,.learning-grid{grid-template-columns:1fr}.benefit{padding:12px}}
 </style>
 </head>
 <body>
+<div class="top">
+  <span>⚡ Learn • Build • Innovate</span>
+  <span>Electronics components for students, educators and makers</span>
+</div>
 <header>
   <div class="logo">Electro<span>Hub</span></div>
-  <form class="search" id="searchForm">
-    <input id="search" type="search" placeholder="Search ESP32, Arduino, sensors..." aria-label="Search products">
-    <button type="submit">⌕</button>
-  </form>
-  <button class="headbtn" id="login">♙ Login</button>
-  <button class="headbtn" id="cart">🛒 Cart (<span id="cartCount">0</span>)</button>
+  <div class="search">
+    <input id="search" placeholder="Search Arduino, sensors, ICs, motors..." aria-label="Search components">
+    <button onclick="render()">Search</button>
+  </div>
+  <button class="cartbtn" onclick="openCart()">🛒 Cart (<span id="cartCount">0</span>)</button>
 </header>
-
 <nav>
-  <button id="all">All Products</button>
-  <button data-nav="Development Boards">Development Boards</button>
-  <button data-nav="Sensors">Sensors</button>
-  <button data-nav="Components">Components</button>
-  <button data-nav="Robotics">Robotics</button>
-  <button data-nav="Communication">Communication</button>
-  <button data-nav="Project Kits">Project Kits</button>
+  <a href="#categories">Categories</a>
+  <a href="#products">All Components</a>
+  <a href="#projects">Project Kits</a>
+  <a href="#learn">Learning Hub</a>
+  <a href="#about">About</a>
 </nav>
-
 <main>
-  <section class="categories" id="categories"></section>
+<section class="hero">
+  <div>
+    <span class="tag">THE ELECTRONICS LEARNING HUB</span>
+    <h1>Every Component.<br>Every Project. One Hub.</h1>
+    <p>Explore development boards, sensors, IoT modules, electronic components, robotics and VLSI tools — from your first LED circuit to advanced engineering projects.</p>
+    <button onclick="document.getElementById('products').scrollIntoView({behavior:'smooth'})">Explore Components ↓</button>
+  </div>
+  <div class="hero-art">🔌 💡<br>🤖 ⚡</div>
+</section>
 
-  <section class="hero">
-    <div>
-      <h1>Build Your Next Big Idea with <span>ElectroHub</span></h1>
-      <p>Explore development boards, electronic components, sensors and IoT project kits for your next innovation.</p>
-      <button class="yellow" id="shop">Shop Now →</button>
-    </div>
-    <img src="https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&w=800&q=80" alt="Electronic circuit board">
-  </section>
+<div class="benefits">
+  <div class="benefit"><b>🎓 For Students</b>Learn electronics from beginner to advanced level.</div>
+  <div class="benefit"><b>🧑‍🏫 For Lecturers</b>Explore lab components and teaching kits.</div>
+  <div class="benefit"><b>🛠️ For Makers</b>Find modules for embedded and IoT projects.</div>
+  <div class="benefit"><b>📚 Project Learning</b>Discover example builds and required components.</div>
+</div>
 
-  <section class="layout" id="productsSection">
-    <aside class="filters">
-      <h3>Filter Products</h3>
-      <div class="filter-options" id="categoryFilters"></div>
-      <hr>
-      <h3>Price Range</h3>
-      <label><input type="radio" name="price" value="all" checked> All prices</label>
-      <label><input type="radio" name="price" value="200"> Under ₹200</label>
-      <label><input type="radio" name="price" value="500"> ₹200–₹500</label>
-      <label><input type="radio" name="price" value="1000"> ₹501–₹1,000</label>
-      <label><input type="radio" name="price" value="2000"> ₹1,001–₹2,000</label>
-      <label><input type="radio" name="price" value="above"> Above ₹2,000</label>
-      <button class="yellow" id="reset" style="width:100%;margin-top:12px">Clear Filters</button>
-    </aside>
+<section id="categories">
+  <div class="section-title">
+    <h2>Explore Categories</h2>
+    <span class="muted">Choose a component family</span>
+  </div>
+  <div class="categories" id="categoryGrid"></div>
+</section>
 
-    <section>
-      <div class="products-head">
-        <h2 id="heading">Electronics Products</h2>
-        <select id="sort" aria-label="Sort products">
-          <option value="popular">Popularity</option>
-          <option value="low">Price: Low to High</option>
-          <option value="high">Price: High to Low</option>
-          <option value="name">Name: A to Z</option>
-        </select>
-      </div>
-      <div class="count" id="count"></div>
-      <div class="grid" id="products"></div>
-    </section>
-  </section>
+<section id="products">
+  <div class="section-title">
+    <h2>Electronics Components</h2>
+    <span class="muted" id="resultCount"></span>
+  </div>
+  <div class="filters">
+    <input id="minPrice" type="number" min="0" placeholder="Minimum ₹">
+    <input id="maxPrice" type="number" min="0" placeholder="Maximum ₹">
+    <select id="levelFilter">
+      <option value="">All skill levels</option>
+      <option>Beginner</option><option>Intermediate</option><option>Advanced</option>
+    </select>
+    <select id="sort">
+      <option value="default">Recommended</option>
+      <option value="low">Price: Low to High</option>
+      <option value="high">Price: High to Low</option>
+      <option value="name">Name: A to Z</option>
+    </select>
+    <button onclick="resetFilters()">Reset Filters</button>
+  </div>
+  <div class="product-grid" id="productGrid"></div>
+</section>
+
+<section id="projects">
+  <div class="section-title">
+    <h2>Popular Project Ideas</h2>
+    <span class="muted">Start building something useful</span>
+  </div>
+  <div class="project-grid">
+    <div class="project"><div class="emoji">🌦️</div><h3>IoT Weather Station</h3><p>Measure temperature and humidity, then display or transmit the readings.</p><button onclick="projectSearch('DHT11')">Find components</button></div>
+    <div class="project"><div class="emoji">🤖</div><h3>Obstacle-Avoiding Robot</h3><p>Build a mobile robot using distance sensing and motor control.</p><button onclick="projectSearch('HC-SR04')">Find components</button></div>
+    <div class="project"><div class="emoji">🏠</div><h3>Smart Home Prototype</h3><p>Explore wireless control, environmental sensors and safe low-voltage automation.</p><button onclick="projectSearch('ESP32')">Find components</button></div>
+    <div class="project"><div class="emoji">🌱</div><h3>Smart Plant Monitor</h3><p>Monitor soil moisture and display when a plant needs watering.</p><button onclick="projectSearch('soil moisture')">Find components</button></div>
+    <div class="project"><div class="emoji">📡</div><h3>Wireless Sensor Node</h3><p>Send sensor readings between development boards using a wireless module.</p><button onclick="projectSearch('LoRa')">Find components</button></div>
+    <div class="project"><div class="emoji">💡</div><h3>LED Control System</h3><p>Learn output pins, resistors, PWM brightness control and displays.</p><button onclick="projectSearch('LED')">Find components</button></div>
+  </div>
+</section>
+
+<section id="learn" class="learning">
+  <h2>Learn Electronics from A to Z</h2>
+  <div class="learning-grid">
+    <div><b>🌱 Beginner</b><br>Voltage, current, resistors, breadboards, LEDs, Arduino basics and simple circuits.</div>
+    <div><b>⚙️ Intermediate</b><br>Sensor interfacing, displays, communication protocols, motor drivers and embedded C.</div>
+    <div><b>🚀 Advanced</b><br>RTOS concepts, wireless networks, PCB design, FPGA development, digital logic and VLSI.</div>
+  </div>
+</section>
 </main>
-
-<footer>
-  <strong>ElectroHub</strong> — Electronics, IoT and Embedded Systems
-  <p>Development Boards · Sensors · Components · Robotics · Project Kits</p>
-  <p>Student demo store. Prices are illustrative; no real checkout or payment is enabled.</p>
-  <p>© <span id="year"></span> ElectroHub</p>
+<footer id="about">
+  <div class="logo">Electro<span>Hub</span></div>
+  <p>A learning-focused electronics component catalogue for students, lecturers, hobbyists and project developers.</p>
+  <p><b>Important:</b> This is a demo catalogue. Prices are indicative examples, not live seller prices. Images link to public image resources where available; some products use illustrative icons. Verify component specifications, compatibility, licensing and availability before purchasing.</p>
+  <p>© 2026 ElectroHub | Learn • Build • Innovate</p>
 </footer>
 
+<div class="modal-bg" id="modalBg" onclick="if(event.target===this)closeModal()">
+  <div class="modal" id="modal"></div>
+</div>
+
 <script>
-const imageBoard="https://images.unsplash.com/photo-1553406830-ef2513450d76?auto=format&fit=crop&w=400&q=80";
-const imageCircuit="https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&w=400&q=80";
-const imageSensor="https://images.unsplash.com/photo-1581092160562-40aa08e78837?auto=format&fit=crop&w=400&q=80";
-const imageRobot="https://images.unsplash.com/photo-1485827404703-89b55fcc595e?auto=format&fit=crop&w=400&q=80";
-const imageTech="https://images.unsplash.com/photo-1519389950473-47ba0277781c?auto=format&fit=crop&w=400&q=80";
-
 const categories=[
- ["Development Boards",imageBoard],
- ["Sensors",imageSensor],
- ["Components",imageCircuit],
- ["Robotics",imageRobot],
- ["Communication",imageTech],
- ["Project Kits",imageSensor]
+["All","🧰"],["Arduino","🔵"],["ESP32 & ESP8266","📶"],["Raspberry Pi","🍓"],
+["Sensors","📡"],["LEDs & Lighting","💡"],["Displays","🖥️"],["Motors & Robotics","🤖"],
+["Communication","📶"],["Power & Batteries","🔋"],["Basic Components","🧩"],
+["ICs & Logic","🔲"],["FPGA & VLSI","💻"],["Tools & Lab","🛠️"],["Wires & PCB","🔌"],
+["Audio","🔊"],["Kits","📦"]
 ];
 
-const products=[
- {name:"ESP32 Development Board",cat:"Development Boards",price:450,img:imageBoard,rating:4.6},
- {name:"Arduino Uno Compatible Board",cat:"Development Boards",price:550,img:imageBoard,rating:4.5},
- {name:"Raspberry Pi Compatible Board",cat:"Development Boards",price:4200,img:imageBoard,rating:4.8},
- {name:"DHT11 Temperature Sensor",cat:"Sensors",price:120,img:imageSensor,rating:4.3},
- {name:"Ultrasonic Sensor HC-SR04",cat:"Sensors",price:100,img:imageCircuit,rating:4.4},
- {name:"Soil Moisture Sensor",cat:"Sensors",price:90,img:imageSensor,rating:4.2},
- {name:"PIR Motion Sensor",cat:"Sensors",price:110,img:imageCircuit,rating:4.1},
- {name:"Breadboard and Jumper Wires",cat:"Components",price:180,img:imageCircuit,rating:4.6},
- {name:"Resistor Assortment Kit",cat:"Components",price:150,img:imageCircuit,rating:4.5},
- {name:"LED and Diode Kit",cat:"Components",price:140,img:imageCircuit,rating:4.4},
- {name:"L298N Motor Driver",cat:"Robotics",price:220,img:imageRobot,rating:4.3},
- {name:"Robot Car Chassis Kit",cat:"Robotics",price:650,img:imageRobot,rating:4.5},
- {name:"NRF24L01 Wireless Module",cat:"Communication",price:160,img:imageCircuit,rating:4.4},
- {name:"GPS Receiver Module",cat:"Communication",price:380,img:imageTech,rating:4.2},
- {name:"Bluetooth HC-05 Module",cat:"Communication",price:290,img:imageTech,rating:4.3},
- {name:"IoT Home Automation Kit",cat:"Project Kits",price:1250,img:imageSensor,rating:4.7},
- {name:"Smart Irrigation Project Kit",cat:"Project Kits",price:950,img:imageSensor,rating:4.6},
- {name:"Beginner Electronics Kit",cat:"Project Kits",price:799,img:imageCircuit,rating:4.7}
-];
-
-let activeCategory="All";
-let cartItems=[];
-
-const $=id=>document.getElementById(id);
-const rupees=n=>"₹"+n.toLocaleString("en-IN");
-
-function drawCategories(){
- $("categories").innerHTML=categories.map(c=>
- `<button class="category ${activeCategory===c[0]?"active":""}" data-category="${c[0]}">
- <img src="${c[1]}" alt="${c[0]}" loading="lazy"><div>${c[0]}</div></button>`
- ).join("");
-
- $("categoryFilters").innerHTML=
- `<label><input type="radio" name="category" value="All" ${activeCategory==="All"?"checked":""}> All Products</label>`+
- categories.map(c=>`<label><input type="radio" name="category" value="${c[0]}" ${activeCategory===c[0]?"checked":""}> ${c[0]}</label>`).join("");
+const products=[];
+function add(category,items){
+  items.forEach(x=>{
+    products.push({
+      id:products.length+1,
+      name:x[0],category,price:x[1],level:x[2]||"Beginner",
+      desc:x[3]||"Electronic component for learning, prototyping and engineering projects.",
+      specs:x[4]||"Check datasheet for exact specifications",
+      emoji:x[5]||"🔌",image:x[6]||""
+    });
+  });
 }
 
-function getProducts(){
- const q=$("search").value.trim().toLowerCase();
- const range=document.querySelector('input[name="price"]:checked')?.value||"all";
+add("Arduino",[
+["Arduino Uno R3",550,"Beginner","Popular microcontroller board for learning electronics.","5V • ATmega328P • 14 digital I/O","🔵","https://commons.wikimedia.org/wiki/Special:FilePath/Arduino_Uno_-_R3.jpg"],
+["Arduino Uno R4 Minima",1800,"Intermediate","32-bit development board for embedded projects.","5V I/O • RA4M1","🔵"],
+["Arduino Uno R4 WiFi",2500,"Intermediate","Development board with wireless capabilities.","Wi-Fi • Bluetooth • 32-bit MCU","📶"],
+["Arduino Mega 2560",950,"Intermediate","Board with many I/O pins for complex projects.","54 digital I/O • 16 analog-capable pins","🔵"],
+["Arduino Nano",350,"Beginner","Compact board for small embedded systems.","Compact form factor","🔵"],
+["Arduino Nano Every",700,"Intermediate","Compact board for space-limited designs.","ATmega4809","🔵"],
+["Arduino Leonardo",650,"Intermediate","Board suitable for USB input-device projects.","ATmega32U4","🔵"],
+["Arduino Micro",700,"Intermediate","Small USB-capable microcontroller board.","ATmega32U4","🔵"],
+["Arduino Pro Mini",250,"Intermediate","Small board for compact embedded builds.","Multiple voltage/clock variants","🔵"],
+["Arduino Due",1600,"Advanced","32-bit board for more demanding applications.","84 MHz ARM Cortex-M3","🔵"],
+["Arduino Nano 33 IoT",1800,"Advanced","Compact board for connected IoT prototypes.","Wi-Fi • Bluetooth","📶"],
+["Arduino Nano ESP32",1600,"Intermediate","Compact ESP32-powered board in Nano format.","Wi-Fi • Bluetooth","📶"],
+["Arduino Ethernet Shield",950,"Intermediate","Adds wired network connectivity to compatible boards.","Ethernet","🌐"],
+["Arduino Motor Shield",650,"Intermediate","Motor-control expansion for supported boards.","Check motor current limits","⚙️"]
+]);
 
- let list=products.filter(p=>{
-  const searchMatch=(p.name+" "+p.cat).toLowerCase().includes(q);
-  const categoryMatch=activeCategory==="All"||p.cat===activeCategory;
-  let priceMatch=true;
-  if(range==="200") priceMatch=p.price<200;
-  if(range==="500") priceMatch=p.price>=200&&p.price<=500;
-  if(range==="1000") priceMatch=p.price>500&&p.price<=1000;
-  if(range==="2000") priceMatch=p.price>1000&&p.price<=2000;
-  if(range==="above") priceMatch=p.price>2000;
-  return searchMatch&&categoryMatch&&priceMatch;
- });
+add("ESP32 & ESP8266",[
+["ESP32 DevKit V1",350,"Beginner","Wi-Fi and Bluetooth development board.","3.3V logic • Wi-Fi • Bluetooth","📶"],
+["ESP32-WROOM-32 Module",280,"Intermediate","Wireless module for embedded designs.","Wi-Fi • Bluetooth","📶"],
+["ESP32-S3 Development Board",550,"Advanced","Board for connected devices and more demanding applications.","USB • Wi-Fi • Bluetooth LE","📶"],
+["ESP32-C3 Development Board",350,"Intermediate","Compact RISC-V wireless development board.","Wi-Fi • Bluetooth LE","📶"],
+["ESP32-CAM",450,"Intermediate","Camera-capable board for image-based prototypes.","Camera interface • Wi-Fi","📷"],
+["ESP8266 NodeMCU",300,"Beginner","Affordable Wi-Fi board for IoT projects.","Wi-Fi • 3.3V logic","📶"],
+["Wemos D1 Mini",250,"Beginner","Compact ESP8266 board for connected projects.","Wi-Fi","📶"],
+["ESP32-C6 Board",650,"Advanced","Wireless development board for newer connectivity experiments.","Wi-Fi 6 • BLE • 802.15.4 support varies by board","📶"],
+["USB-to-TTL Converter",150,"Intermediate","Serial communication adapter for compatible boards.","Check voltage selection","🔌"]
+]);
 
- const sort=$("sort").value;
- if(sort==="low")list.sort((a,b)=>a.price-b.price);
- if(sort==="high")list.sort((a,b)=>b.price-a.price);
- if(sort==="name")list.sort((a,b)=>a.name.localeCompare(b.name));
- return list;
-}
+add("Raspberry Pi",[
+["Raspberry Pi 5",7500,"Advanced","Single-board computer for Linux and computing projects.","Model and RAM options vary","🍓"],
+["Raspberry Pi 4 Model B",5500,"Advanced","Single-board computer for servers, automation and education.","RAM variants available","🍓"],
+["Raspberry Pi Zero 2 W",2200,"Intermediate","Compact computer for small connected projects.","Wi-Fi • Bluetooth","🍓"],
+["Raspberry Pi Pico",450,"Beginner","Microcontroller board for embedded programming.","RP2040","🍓"],
+["Raspberry Pi Pico W",650,"Intermediate","Microcontroller board with wireless connectivity.","RP2040 • Wi-Fi","🍓"],
+["Raspberry Pi Camera Module",1800,"Intermediate","Camera accessory for compatible Raspberry Pi boards.","Check connector compatibility","📷"],
+["Raspberry Pi GPIO Header",100,"Beginner","Pin header for compatible boards.","Board-specific compatibility","🔌"],
+["Raspberry Pi Active Cooler",900,"Intermediate","Cooling accessory for compatible boards.","Check board model","❄️"]
+]);
 
-function drawProducts(){
- const list=getProducts();
- $("heading").textContent=activeCategory==="All"?"Electronics Products":activeCategory;
- $("count").textContent=list.length+" product(s) found";
-
- if(list.length===0){
-  $("products").innerHTML='<div class="empty"><h3>No products found</h3><p>Try another search or clear the filters.</p><button class="yellow" id="emptyReset">Show All Products</button></div>';
-  $("emptyReset").addEventListener("click",resetAll);
-  return;
- }
-
- $("products").innerHTML=list.map(p=>`
- <article class="product">
- <img src="${p.img}" alt="${p.name}" loading="lazy" onerror="this.onerror=null;this.src='https://placehold.co/400x280/eaf3ff/0866d9?text=ElectroHub'">
- <h3>${p.name}</h3>
- <div class="rating"><span class="star">★</span> ${p.rating} / 5</div>
- <div class="price">${rupees(p.price)}</div>
- <small>✓ Demo listing</small>
- <button class="add" data-name="${p.name}">🛒 Add to Cart</button>
- </article>`).join("");
-}
-
-function resetAll(){
- activeCategory="All";
- $("search").value="";
- $("sort").value="popular";
- document.querySelector('input[name="price"][value="all"]').checked=true;
- drawCategories();
- drawProducts();
-}
-
-$("categories").addEventListener("click",e=>{
- const b=e.target.closest("[data-category]");
- if(!b)return;
- activeCategory=b.dataset.category;
- drawCategories();drawProducts();
- $("productsSection").scrollIntoView({behavior:"smooth"});
-});
-
-$("categoryFilters").addEventListener("change",e=>{
- if(e.target.name!=="category")return;
- activeCategory=e.target.value;
- drawCategories();drawProducts();
-});
-
-document.querySelectorAll('input[name="price"]').forEach(x=>x.addEventListener("change",drawProducts));
-$("search").addEventListener("input",drawProducts);
-$("searchForm").addEventListener("submit",e=>{
- e.preventDefault();drawProducts();
- $("productsSection").scrollIntoView({behavior:"smooth"});
-});
-$("sort").addEventListener("change",drawProducts);
-
-$("products").addEventListener("click",e=>{
- const b=e.target.closest("[data-name]");
- if(!b)return;
- const p=products.find(x=>x.name===b.dataset.name);
- cartItems.push(p);
- $("cartCount").textContent=cartItems.length;
- b.textContent="✓ Added";
- setTimeout(()=>{if(b.isConnected)b.textContent="🛒 Add to Cart"},1000);
-});
-
-$("cart").addEventListener("click",()=>{
- if(!cartItems.length){alert("Your cart is empty. Add a product first.");return}
- const total=cartItems.reduce((s,p)=>s+p.price,0);
- alert("Your ElectroHub cart:\n\n"+cartItems.map(p=>p.name+" - "+rupees(p.price)).join("\n")+"\n\nTotal: "+rupees(total)+"\n\nDemo cart only; checkout is not enabled.");
-});
-$("login").addEventListener("click",()=>alert("Login is a demo feature. User accounts are not connected."));
-$("shop").addEventListener("click",()=>$("productsSection").scrollIntoView({behavior:"smooth"}));
-$("all").addEventListener("click",resetAll);
-document.querySelectorAll("[data-nav]").forEach(b=>b.addEventListener("click",()=>{
- activeCategory=b.dataset.nav;drawCategories();drawProducts();
- $("productsSection").scrollIntoView({behavior:"smooth"});
-}));
-$("reset").addEventListener("click",resetAll);
-$("year").textContent=new Date().getFullYear();
-
-drawCategories();
-drawProducts();
-</script>
-</body>
-</html>
+add("Sensors",[
+["DHT11 Temperature & Humidity Sensor",90,"Beginner","Basic environmental sensor for learning projects.","Digital • temperature and humidity","🌡️"],
+["DHT22 / AM2302",220,"Beginner","Environmental sensor for temperature and humidity.","Digital • check operating range","🌡️"],
+["BME280 Sensor",280,"Intermediate","Measures environmental pressure, temperature and humidity.","I²C/SPI variants","🌦️"],
+["BMP280 Pressure Sensor",150,"Intermediate","Measures atmospheric pressure and temperature.","I²C/SPI variants","🌦️"],
+["HC-SR04 Ultrasonic Sensor",90,"Beginner","Measures distance using ultrasonic pulses.","Check trigger/echo voltage compatibility","📡"],
+["PIR Motion Sensor HC-SR501",100,"Beginner","Detects changes in infrared radiation from moving objects.","Digital output","🚶"],
+["IR Obstacle Sensor",60,"Beginner","Detects nearby objects using infrared light.","Module sensitivity varies","📡"],
+["MQ-2 Gas Sensor",130,"Intermediate","Gas/smoke sensing module for educational prototypes.","Heater-powered sensor • calibration required","💨"],
+["MQ-135 Air Quality Sensor",150,"Intermediate","Air-quality-related gas sensing module.","Requires calibration","🌫️"],
+["Soil Moisture Sensor",70,"Beginner","Measures soil moisture level for plant projects.","Analog/digital module variants","🌱"],
+["Capacitive Soil Moisture Sensor",140,"Beginner","Capacitive soil moisture measurement module.","Check supply voltage","🌱"],
+["LDR Light Sensor Module",50,"Beginner","Detects light intensity.","Analog/digital variants","☀️"],
+["LM35 Temperature Sensor",90,"Intermediate","Analog temperature sensor.","Analog output","🌡️"],
+["DS18B20 Temperature Sensor",130,"Intermediate","Digital temperature sensor, available in waterproof forms.","1-Wire interface","🌡️"],
+["Flame Sensor Module",70,"Beginner","Detects infrared radiation in a flame-sensing experiment.","Not a certified fire alarm","🔥"],
+["Sound Sensor Module",60,"Beginner","Detects sound levels for simple projects.","Analog/digital variants","🎤"],
+["Rain Sensor Module",80,"Beginner","Detects water on a sensing plate.","Module and probe variants","🌧️"],
+["Water Level Sensor",60,"Beginner","Detects water level in educational prototypes.","Corrosion depends on design","💧"],
+["Water Flow Sensor",250,"Intermediate","Produces pulses related to water flow.","Calibration required","💧"],
+["Turbidity Sensor",500,"Advanced","Measures water turbidity for experiments.","Calibration required","💧"],
+["MPU6050 Motion Sensor",150,"Intermediate","Accelerometer and gyroscope module.","I²C interface","🧭"],
+["ADXL345 Accelerometer",180,"Intermediate","Measures acceleration along multiple axes.","I²C/SPI variants","🧭"],
+["NEO-6M GPS Module",450,"Intermediate","Provides satellite positioning data outdoors.","UART • antenna requirements","🛰️"],
+["MAX30102 Optical Sensor",220,"Advanced","Optical pulse/oxygen-saturation sensing module for learning.","Not a medical diagnostic device","❤️"],
+["Load Cell + HX711",250,"Intermediate","Measures force or weight with a load cell and amplifier.","Capacity depends on load cell","⚖️"],
+["Flex Senso
