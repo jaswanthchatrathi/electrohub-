@@ -1,0 +1,220 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ElectroHub | Electronics & IoT</title>
+  <style>
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: #0b1120;
+      color: #f1f5f9;
+    }
+    header {
+      padding: 18px;
+      background: #111c30;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+    .logo { font-size: 25px; font-weight: bold; color: #2dd4bf; }
+    header a { color: white; text-decoration: none; margin: 5px; }
+    .hero { text-align: center; padding: 45px 18px; }
+    .hero h1 { font-size: 36px; margin-bottom: 12px; }
+    .hero span { color: #2dd4bf; }
+    .hero p { color: #b8c5d8; line-height: 1.6; }
+    input {
+      width: min(100%, 450px);
+      padding: 14px;
+      border-radius: 10px;
+      border: 1px solid #334155;
+      background: #172338;
+      color: white;
+      margin-top: 15px;
+      font-size: 16px;
+    }
+    .categories, .products {
+      display: flex;
+      gap: 12px;
+      padding: 15px;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+    button {
+      background: #0f766e;
+      color: white;
+      border: 0;
+      border-radius: 8px;
+      padding: 11px 15px;
+      cursor: pointer;
+      font-size: 14px;
+    }
+    button:hover { background: #14b8a6; color: #07111e; }
+    h2 { text-align: center; margin-top: 30px; }
+    .product {
+      background: #152238;
+      border: 1px solid #263650;
+      border-radius: 14px;
+      padding: 18px;
+      width: 205px;
+      text-align: center;
+    }
+    .product .emoji { font-size: 48px; }
+    .product p { color: #b8c5d8; font-size: 14px; }
+    .price { color: #2dd4bf; font-size: 21px; font-weight: bold; }
+    #cart { text-align: center; padding: 20px; }
+    footer {
+      margin-top: 35px;
+      padding: 25px;
+      background: #111c30;
+      text-align: center;
+      color: #b8c5d8;
+    }
+    @media (max-width: 480px) {
+      .hero h1 { font-size: 29px; }
+      .product { width: 100%; max-width: 320px; }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="logo">⚡ ElectroHub</div>
+    <nav>
+      <a href="#home">Home</a>
+      <a href="#products">Products</a>
+      <a href="#kits">Project Kits</a>
+      <a href="#cart">Cart 🛒 <span id="cartCount">0</span></a>
+    </nav>
+  </header>
+
+  <section class="hero" id="home">
+    <h1>Power Your Ideas with <span>ElectroHub</span></h1>
+    <p>Your destination for electronics, embedded systems and IoT components.</p>
+    <input id="search" type="search" placeholder="Search Arduino, ESP32, sensors..." oninput="renderProducts()">
+  </section>
+
+  <h2>Explore Categories</h2>
+  <div class="categories">
+    <button onclick="setCategory('All')">All</button>
+    <button onclick="setCategory('Boards')">Development Boards</button>
+    <button onclick="setCategory('Sensors')">Sensors</button>
+    <button onclick="setCategory('Components')">Components</button>
+    <button onclick="setCategory('Robotics')">Robotics</button>
+  </div>
+
+  <h2 id="products">Featured Products</h2>
+  <div class="products" id="productList"></div>
+
+  <section id="kits">
+    <h2>Student Project Kits</h2>
+    <div class="products">
+      <div class="product">
+        <div class="emoji">🌱</div>
+        <h3>Smart Agriculture Kit</h3>
+        <p>Explore soil moisture sensing and automated irrigation.</p>
+      </div>
+      <div class="product">
+        <div class="emoji">🏠</div>
+        <h3>Smart Home Kit</h3>
+        <p>Learn IoT monitoring and home automation.</p>
+      </div>
+      <div class="product">
+        <div class="emoji">🤖</div>
+        <h3>Robotics Starter Kit</h3>
+        <p>Discover motors, sensors and microcontrollers.</p>
+      </div>
+    </div>
+  </section>
+
+  <section id="cart">
+    <h2>Your Shopping Cart</h2>
+    <div id="cartItems">Your cart is empty.</div>
+    <h3 id="total">Total: ₹0</h3>
+    <button onclick="clearCart()">Clear Cart</button>
+    <p>Demo only — no real orders or payments yet.</p>
+  </section>
+
+  <footer>
+    <h3>⚡ ElectroHub</h3>
+    <p>Components for your next great idea.</p>
+    <p>Electronics • Embedded Systems • IoT</p>
+  </footer>
+
+  <script>
+    const products = [
+      {name:"Arduino Uno", category:"Boards", price:550, emoji:"🔌", desc:"Beginner-friendly microcontroller board"},
+      {name:"ESP32 Dev Board", category:"Boards", price:450, emoji:"📡", desc:"Wi-Fi and Bluetooth development board"},
+      {name:"STM32 Board", category:"Boards", price:700, emoji:"💻", desc:"Microcontroller development platform"},
+      {name:"Ultrasonic Sensor", category:"Sensors", price:100, emoji:"📶", desc:"Distance measurement sensor"},
+      {name:"DHT11 Sensor", category:"Sensors", price:120, emoji:"🌡️", desc:"Temperature and humidity sensor"},
+      {name:"Soil Moisture Sensor", category:"Sensors", price:80, emoji:"🌱", desc:"Measure soil moisture levels"},
+      {name:"Resistor Kit", category:"Components", price:150, emoji:"🧩", desc:"Assorted resistors for circuits"},
+      {name:"Breadboard Kit", category:"Components", price:180, emoji:"🔧", desc:"Build circuits without soldering"},
+      {name:"Robot Chassis Kit", category:"Robotics", price:650, emoji:"🤖", desc:"Starter chassis for robotics projects"}
+    ];
+
+    let category = "All";
+    let cart = [];
+
+    function setCategory(value) {
+      category = value;
+      renderProducts();
+    }
+
+    function renderProducts() {
+      const query = document.getElementById("search").value.toLowerCase();
+      const filtered = products.filter(p =>
+        (category === "All" || p.category === category) &&
+        (p.name.toLowerCase().includes(query) ||
+         p.desc.toLowerCase().includes(query))
+      );
+
+      document.getElementById("productList").innerHTML =
+        filtered.length ? filtered.map(p => `
+          <div class="product">
+            <div class="emoji">${p.emoji}</div>
+            <h3>${p.name}</h3>
+            <p>${p.desc}</p>
+            <div class="price">₹${p.price}</div>
+            <p>Sample price</p>
+            <button onclick="addToCart('${p.name}')">Add to Cart</button>
+          </div>
+        `).join("") : "<p>No products found.</p>";
+    }
+
+    function addToCart(name) {
+      cart.push(products.find(p => p.name === name));
+      renderCart();
+    }
+
+    function renderCart() {
+      document.getElementById("cartCount").textContent = cart.length;
+      document.getElementById("cartItems").innerHTML = cart.length
+        ? cart.map((p, i) =>
+            `<p>${p.name} — ₹${p.price} <button onclick="removeItem(${i})">Remove</button></p>`
+          ).join("")
+        : "Your cart is empty.";
+
+      const total = cart.reduce((sum, p) => sum + p.price, 0);
+      document.getElementById("total").textContent = "Total: ₹" + total;
+    }
+
+    function removeItem(index) {
+      cart.splice(index, 1);
+      renderCart();
+    }
+
+    function clearCart() {
+      cart = [];
+      renderCart();
+    }
+
+    renderProducts();
+  </script>
+</body>
+</html>
