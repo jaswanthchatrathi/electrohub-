@@ -32,4 +32,194 @@ const definitions=[
 {cat:'Connectors',icon:'🔌',brand:'Generic',items:[['40 Pin Male Header Strip','40 pin male header',10],['40 Pin Female Header Strip','40 pin female header',15],['Screw Terminal Block 2 Pin','2 pin screw terminal block',8],['DC Barrel Jack Connector','DC barrel jack connector',8],['USB Type-C Breakout Board','USB C breakout board',25],['JST-XH 2 Pin Connector Pair','JST XH connector',8]]}
 ];
 const variants=['Pack of 5','Pack of 10','Pack of 20','Pack of 50','Assorted Kit','Through-Hole','SMD Version','Module Version','3.3V Version','5V Version','Low Power Version','High Precision Version','Industrial Version','Starter Kit','Replacement Part','With Header Pins','Without Header Pins','Mini Version','Standard Version','Pro Version'];
-const aliases={'esp32':['ESP32','WiFi','Bluetooth','development board'],'resistor':['Resistors','ohm','resistance'],'capacitor':[
+const aliases={'esp32':['ESP32','WiFi','Bluetooth','development board'],'resistor':['Resistors','ohm','resistance'],'capacitor':['Capacitors','µF','pF'],'dht11':['DHT11','temperature humidity sensor'],'arduino':['Arduino','microcontroller board'],'sensor':['Sensors','module'],'mosfet':['Transistors','MOSFET'],'led':['LED','Diodes'],'ic':['ICs','integrated circuit'],'iot':['Wireless','Boards','Sensors']};
+function slug(s){return s.toLowerCase().replace(/[^a-z0-9]+/g,' ').trim()}
+function addProduct(name,cat,search,price,brand,idx){const id=allProducts.length+1;allProducts.push({id,name,cat,search:slug(name+' '+cat+' '+search+' '+brand),imageQuery:search||name,price:Math.max(2,Math.round(price)),brand,stock:idx%13!==0,rating:(4+(idx%10)/10).toFixed(1),popular:idx%4!==0,iot:['Sensors','Boards','Wireless','Power'].includes(cat),icon:(definitions.find(d=>d.cat===cat)||{}).icon||'🔧'});}
+definitions.forEach((d,di)=>d.items.forEach((item,ii)=>{addProduct(item[0],d.cat,item[1],item[2],d.brand,allProducts.length);if(ii%2===0){variants.slice(0,12).forEach((v,vi)=>{addProduct(item[0]+' — '+v,d.cat,item[1]+' '+v, item[2]*(1+vi*.16),d.brand,allProducts.length);});}}));
+// Expand to a large searchable catalogue of realistic specification/package variants.
+const base=allProducts.slice();let n=0;while(allProducts.length<5200){const b=base[n%base.length],v=variants[Math.floor(n/base.length)%variants.length],pack=(Math.floor(n/variants.length)%8)+1;const suffix=pack===1?'':` ${pack}x`;addProduct(`${b.name} ${v}${suffix}`,b.cat,b.imageQuery+' '+v,b.price*(1+pack*.09),b.brand,allProducts.length);n++;}
+const catNames=['Resistors','Capacitors','Diodes','Transistors','ICs','Sensors','Boards','Wireless','Power','Tools','Displays','Motors','Connectors'];
+function renderSideFilters(){ $('sideCats').innerHTML=catNames.map(c=>`<label class="filterlabel"><input type="checkbox" class="catcheck" value="${c}" ${activeCategory===c?'checked':''}> ${c}</label>`).join('');$('brandFilters').innerHTML=['Generic','Maker','Yageo','Vishay','Texas Instruments','onsemi'].map(b=>`<label class="filterlabel"><input type="checkbox" class="brandcheck" value="${b}"> ${b}</label>`).join('');document.querySelectorAll('.catcheck').forEach(x=>x.addEventListener('change',()=>{activeCategory=x.checked?x.value:'All';page=1;syncCats();render()}));document.querySelectorAll('.brandcheck').forEach(x=>x.addEventListener('change',()=>{page=1;render()}));}
+function syncCats(){document.querySelectorAll('.cat').forEach(x=>x.classList.toggle('active',x.dataset.cat===activeCategory));document.querySelectorAll('.catcheck').forEach(x=>x.checked=x.value===activeCategory)}
+function relevanceScore(p, q) {
+ const queryText=slug(q);
+ const name=slug(p.name);
+ const search=p.search;
+ if(!queryText)return 0;
+ if(name===queryText)return 1000;
+ if(name.startsWith(queryText))return 800;
+ if(name.includes(queryText))return 600;
+ const terms=queryText.split(' ').filter(Boolean);
+ const nameHits=terms.filter(t=>name.includes(t)).length;
+ const allHits=terms.filter(t=>search.includes(t)).length;
+ return nameHits*20+allHits*5;
+}
+function apply(){
+ let a=allProducts.filter(p=>activeCategory==='All'||p.cat===activeCategory);
+ if(query){
+  const q=slug(query);
+  const synonyms={
+   'esp32':['esp32','esp 32','esp32 devkit','esp32 wroom'],
+   'esp8266':['esp8266','nodemcu','esp 01','esp-01'],
+   'arduino':['arduino uno','arduino nano','arduino mega','arduino'],
+   'resistor':['resistor','resistors','ohm','resistance','potentiometer','photoresistor'],
+   'capacitor':['capacitor','capacitors','uf','nf','pf','electrolytic','ceramic capacitor'],
+   'inductor':['inductor','inductors','coil','choke'],
+   'led':['led','light emitting diode','ws2812','rgb led'],
+   'jumper wire':['jumper wire','jumper wires','male male','male female','female female','dupont'],
+   'sensor':['sensor','sensors','module'],
+   'dht11':['dht11','temperature humidity'],
+   'hc sr04':['hc sr04','ultrasonic sensor'],
+   'mosfet':['mosfet','irfz44n','irlz44n'],
+   'diode':['diode','zener','rectifier','schottky'],
+   'transistor':['transistor','bc547','bc557','2n2222'],
+   'ic':['ic','integrated circuit','timer ic','op amp'],
+   'raspberry pi':['raspberry pi','pico'],
+   'lo ra':['lora','sx1278','long range'],
+   'breadboard':['breadboard','solderless board']
+  };
+  const mapped=Object.entries(synonyms).find(([k])=>q===slug(k)||q.includes(slug(k)));
+  const terms=q.split(' ').filter(Boolean);
+  a=a.filter(p=>{
+   const n=slug(p.name), hay=p.search;
+   if(n.includes(q)||hay.includes(q))return true;
+   if(mapped && mapped[1].some(term=>n.includes(slug(term))||hay.includes(slug(term))))return true;
+   // For multiword queries, require all meaningful terms to match.
+   return terms.length>1 ? terms.every(t=>hay.includes(t)) : hay.includes(q);
+  });
+  a.sort((x,y)=>relevanceScore(y,query)-relevanceScore(x,query) || x.name.localeCompare(y.name));
+ }
+ const min=Number($('minPrice').value),max=Number($('maxPrice').value);
+ if($('minPrice').value!=='')a=a.filter(p=>p.price>=min);
+ if($('maxPrice').value!=='')a=a.filter(p=>p.price<=max);
+ if($('inStock').checked)a=a.filter(p=>p.stock);
+ const brands=[...document.querySelectorAll('.brandcheck:checked')].map(x=>x.value);
+ if(brands.length)a=a.filter(p=>brands.includes(p.brand));
+ if(quick==='popular')a=a.filter(p=>p.popular);
+ if(quick==='iot')a=a.filter(p=>p.iot);
+ if(quick==='under500')a=a.filter(p=>p.price<500);
+ const sort=$('sortSelect').value;
+ if(sort==='low')a.sort((x,y)=>x.price-y.price);
+ if(sort==='high')a.sort((x,y)=>y.price-x.price);
+ if(sort==='name')a.sort((x,y)=>x.name.localeCompare(y.name));
+ return a;
+}
+function render(){visible=apply();const total=visible.length;const maxPage=Math.max(1,Math.ceil(total/PAGE_SIZE));page=Math.min(page,maxPage);const start=(page-1)*PAGE_SIZE;const shown=visible.slice(start,start+PAGE_SIZE);$('resultTitle').textContent=query?`Results for “${query}”`:activeCategory==='All'?'All Electronics Components':activeCategory;$('resultCount').textContent=`Showing ${total?start+1:0}–${Math.min(start+PAGE_SIZE,total)} of ${total.toLocaleString()} matching components · ${allProducts.length.toLocaleString()} catalogue listings`;$('searchNote').textContent=query?`Search: ${query}`:'';const grid=$('productGrid');if(!shown.length){grid.innerHTML='<div class="empty"><b>No matching components found</b>Try a shorter search such as “ESP32”, “resistor”, “DHT11” or clear the filters.</div>';}else{grid.innerHTML=shown.map(p=>`<article class="product" data-id="${p.id}"><button class="heart ${wishlist.has(p.id)?'on':''}" data-heart="${p.id}" title="Wishlist">♥</button><div class="photo" data-photo="${p.id}"><div class="placeholder">${p.icon}<small>Loading component photo…</small></div></div><div class="brand">${p.brand} · ${p.cat}</div><div class="pname">${p.name}</div><div class="rating">★ ${p.rating}</div><div class="price">₹${p.price.toLocaleString('en-IN')} <span class="oldprice">₹${Math.round(p.price*1.2).toLocaleString('en-IN')}</span></div><div class="stock">${p.stock?'● In stock':'● Usually ships soon'}</div><button class="add" data-add="${p.id}">ADD TO CART</button></article>`).join('');shown.forEach(p=>loadImage(p));}const pg=$('pagination');pg.innerHTML=`<button id="prevPage" ${page===1?'disabled':''}>Previous</button><button class="current">Page ${page} of ${maxPage}</button><button id="nextPage" ${page===maxPage?'disabled':''}>Next</button>`;$('prevPage').onclick=()=>{page--;render();window.scrollTo({top:250,behavior:'smooth'})};$('nextPage').onclick=()=>{page++;render();window.scrollTo({top:250,behavior:'smooth'})};}
+async function findComponentImage(p){
+ const key=slug(p.name).replace(/\b(pack of|version|with|without|kit)\b/g,'').trim().slice(0,100);
+ if(imageCache.has(key)) return imageCache.get(key);
+ const cleanName=String(p.name||'')
+  .replace(/\s*[—-]\s*(pack of.*|assorted kit|through-hole|smd version|module version|3\.3v version|5v version|low power version|high precision version|industrial version|starter kit|replacement part|with header pins|without header pins|mini version|standard version|pro version).*$/i,'')
+  .replace(/\b(pack of \d+|\d+x|version|assorted kit|starter kit)\b/ig,'')
+  .replace(/\s+/g,' ').trim();
+ const specific={
+  'esp32':'ESP32 development board electronics',
+  'arduino uno':'Arduino Uno R3 board',
+  'arduino nano':'Arduino Nano board',
+  'resistor':'electronic resistor axial component',
+  'capacitor':'electrolytic ceramic capacitor electronic component',
+  'inductor':'inductor coil electronic component',
+  'led':'5mm LED electronic component',
+  'jumper wire':'Dupont jumper wires electronics',
+  'dht11':'DHT11 temperature humidity sensor module',
+  'hc sr04':'HC-SR04 ultrasonic sensor module',
+  'breadboard':'solderless electronics breadboard',
+  'diode':'1N4007 rectifier diode electronic component',
+  'transistor':'BC547 transistor electronic component'
+ };
+ const norm=slug(cleanName);
+ let baseQuery=cleanName;
+ for(const [k,v] of Object.entries(specific)){if(norm.includes(k)){baseQuery=v;break;}}
+ const queries=[baseQuery, cleanName, p.cat+' electronic component'];
+ let chosen=null;
+ for(const term of queries){
+  try{
+   const api='https://commons.wikimedia.org/w/api.php?action=query&generator=search&gsrnamespace=6&gsrlimit=12&gsrsearch='+encodeURIComponent(term)+'&prop=imageinfo&iiprop=url|mime&iiurlwidth=500&format=json&origin=*';
+   const response=await fetch(api); if(!response.ok)continue;
+   const data=await response.json();
+   const pages=Object.values((data.query&&data.query.pages)||{});
+   const candidates=pages.filter(x=>x.imageinfo&&x.imageinfo[0]&&x.imageinfo[0].mime&&/^image\/(jpeg|png|webp)$/i.test(x.imageinfo[0].mime));
+   const wanted=slug(baseQuery).split(' ').filter(t=>t.length>2);
+   candidates.sort((a,b)=>{
+    const score=x=>{
+     const title=slug(x.title||'');
+     return wanted.reduce((n,t)=>n+(title.includes(t)?3:0),0)
+       +(title.includes('diagram')?-8:0)+(title.includes('schematic')?-8:0)
+       +(title.includes('symbol')?-5:0)+(title.includes('logo')?-5:0);
+    };
+    return score(b)-score(a);
+   });
+   const best=candidates[0];
+   if(best){
+    const title=slug(best.title||'');
+    const matches=wanted.filter(t=>title.includes(t)).length;
+    // Reject clearly unrelated results rather than showing the wrong part.
+    if(matches>=Math.min(1,wanted.length) && !/diagram|schematic|symbol|logo/.test(title)){
+     chosen=best.imageinfo[0].thumburl||best.imageinfo[0].url;
+     if(chosen)break;
+    }
+   }
+  }catch(err){/* Try another targeted query */}
+ }
+ imageCache.set(key,chosen);return chosen;
+}
+function showImageInBox(box,p,url){
+ if(!box||!box.isConnected)return;
+ if(!url){box.innerHTML=`<div class="placeholder">${p.icon}<small>${escapeHtml(p.name)}<br>Photo unavailable</small></div>`;return;}
+ // IMPORTANT: attach the image to the page BEFORE assigning its URL.
+ // Previously the image was kept detached until onload, so the browser never
+ // started loading it; that caused the product photos to remain blank.
+ const img=document.createElement('img');
+ img.alt=p.name;
+ img.decoding='async';
+ img.referrerPolicy='no-referrer';
+ img.style.display='block';
+ img.onerror=()=>{box.innerHTML=`<div class="placeholder">${p.icon}<small>${escapeHtml(p.name)}<br>Photo unavailable</small></div>`;};
+ box.replaceChildren(img);
+ img.src=url;
+}
+async function loadImage(p){
+ const box=document.querySelector(`[data-photo="${p.id}"]`);if(!box||box.dataset.loading==='1')return;
+ box.dataset.loading='1';
+ const url=await findComponentImage(p);
+ showImageInBox(box,p,url);
+}
+function escapeHtml(s){return String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));}
+function findById(id){return allProducts.find(p=>p.id===Number(id))}
+function addToCart(id){const p=findById(id);if(!p)return;const row=cart.find(x=>x.id===p.id);if(row)row.qty++;else cart.push({id:p.id,qty:1});updateCartCount();}
+function updateCartCount(){$('cartCount').textContent=cart.reduce((s,x)=>s+x.qty,0)}
+function showDetails(id){const p=findById(id);if(!p)return;$('modalTitle').textContent=p.name;$('modalContent').innerHTML=`<div class="detail"><div class="photo" id="detailPhoto"><div class="placeholder">${p.icon}<small>${escapeHtml(p.name)}</small></div></div><div><div class="brand">${p.brand} · ${p.cat}</div><div class="price">₹${p.price.toLocaleString('en-IN')}</div><div class="rating">★ ${p.rating}</div><p><b>Component:</b> ${escapeHtml(p.name)}</p><p><b>Category:</b> ${p.cat}</p><p><b>Search terms:</b> ${escapeHtml(p.search)}</p><p>${p.stock?'Currently marked in stock.':'Availability may vary.'} Price is a demo estimate; confirm specifications and supplier price before purchase.</p><button class="add" id="detailAdd">ADD TO CART</button></div></div>`;$('modalBack').classList.add('show');loadDetailImage(p);$('detailAdd').onclick=()=>{addToCart(p.id);$('detailAdd').textContent='ADDED TO CART ✓'};}
+async function loadDetailImage(p){const box=$('detailPhoto');if(!box)return;const url=await findComponentImage(p);showImageInBox(box,p,url);}
+function showCart(){
+ $('modalTitle').textContent='Your Shopping Cart';
+ if(!cart.length){$('modalContent').innerHTML='<div class="empty"><b>Your cart is empty</b>Add components to see them here.</div>';}
+ else {
+  const total=cart.reduce((sum,row)=>sum+findById(row.id).price*row.qty,0);
+  $('modalContent').innerHTML=cart.map(row=>{const p=findById(row.id);return `<div class="cartline"><div><b>${escapeHtml(p.name)}</b><div class="sub">₹${p.price.toLocaleString('en-IN')} × ${row.qty}</div></div><div><b>₹${(p.price*row.qty).toLocaleString('en-IN')}</b><br><button data-remove="${p.id}">Remove</button></div></div>`}).join('')+
+  `<h3 style="text-align:right">Total: ₹${total.toLocaleString('en-IN')}</h3>
+  <h3 style="margin:20px 0 10px">Delivery details</h3>
+  <form id="whatsappOrderForm" style="display:grid;gap:10px">
+   <input name="customerName" required maxlength="100" placeholder="Full name" style="padding:11px;border:1px solid #ddd;border-radius:3px">
+   <input name="mobile" required type="tel" inputmode="tel" pattern="[+0-9 ()-]{10,18}" placeholder="Mobile number" style="padding:11px;border:1px solid #ddd;border-radius:3px">
+   <input name="email" type="email" placeholder="Email (optional)" style="padding:11px;border:1px solid #ddd;border-radius:3px">
+   <textarea name="address" required maxlength="400" placeholder="Full delivery address, house/flat, street, area" rows="3" style="padding:11px;border:1px solid #ddd;border-radius:3px;font:inherit"></textarea>
+   <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px"><input name="city" required placeholder="City" style="min-width:0;padding:11px;border:1px solid #ddd;border-radius:3px"><input name="state" required placeholder="State" style="min-width:0;padding:11px;border:1px solid #ddd;border-radius:3px"></div>
+   <input name="pincode" required inputmode="numeric" pattern="[0-9]{6}" maxlength="6" placeholder="6-digit PIN code" style="padding:11px;border:1px solid #ddd;border-radius:3px">
+   <button type="submit" class="add" style="background:#25D366;color:white;padding:13px;font-size:15px">PLACE ORDER THROUGH WHATSAPP</button>
+   <div class="sub">WhatsApp opens with your order details. Please review and tap Send to submit your order.</div>
+  </form>`;
+  document.querySelectorAll('[data-remove]').forEach(b=>b.onclick=()=>{cart=cart.filter(x=>x.id!==Number(b.dataset.remove));updateCartCount();showCart()});
+  $('whatsappOrderForm').addEventListener('submit',e=>{
+   e.preventDefault();const f=e.currentTarget; if(!f.reportValidity())return;const d=new FormData(f);
+   const items=cart.map(row=>{const p=findById(row.id);return `- ${p.name} x ${row.qty} = ₹${(p.price*row.qty).toLocaleString('en-IN')}`}).join('\n');
+   const msg=`ELECTROHUB - NEW ORDER\n\nCustomer name: ${d.get('customerName')}\nMobile number: ${d.get('mobile')}\nEmail: ${d.get('email')||'Not provided'}\nDelivery address: ${d.get('address')}\nCity: ${d.get('city')}\nState: ${d.get('state')}\nPIN code: ${d.get('pincode')}\n\nORDERED COMPONENTS\n${items}\n\nTotal: ₹${total.toLocaleString('en-IN')}\n\nPlease confirm availability and delivery.`;
+   const url='https://wa.me/919030368309?text='+encodeURIComponent(msg);window.open(url,'_blank','noopener,noreferrer');
+  });
+ }
+ $('modalBack').classList.add('show');
+}
+$('searchForm').addEventListener('submit',e=>{e.preventDefault();query=$('searchInput').value.trim();page=1;quick='all';document.querySelectorAll('[data-quick]').forEach(x=>x.classList.toggle('active',x.dataset.quick==='all'));render();});$('searchInput').addEventListener('input',()=>{query=$('searchInput').value.trim();page=1;render()});$('categories').addEventListener('click',e=>{const b=e.target.closest('[data-cat]');if(!b)return;activeCategory=b.dataset.cat;page=1;syncCats();render()});$('sortSelect').addEventListener('change',()=>{page=1;render()});['minPrice','maxPrice','inStock'].forEach(id=>$(id).addEventListener('change',()=>{page=1;render()}));$('clearFilters').onclick=()=>{$('minPrice').value='';$('maxPrice').value='';$('inStock').checked=false;document.querySelectorAll('.brandcheck,.catcheck').forEach(x=>x.checked=false);activeCategory='All';query='';$('searchInput').value='';quick='all';page=1;syncCats();document.querySelectorAll('[data-quick]').forEach(x=>x.classList.toggle('active',x.dataset.quick==='all'));render()};document.querySelectorAll('[data-quick]').forEach(b=>b.addEventListener('click',()=>{quick=b.dataset.quick;page=1;document.querySelectorAll('[data-quick]').forEach(x=>x.classList.toggle('active',x===b));render()}));$('productGrid').addEventListener('click',e=>{const add=e.target.closest('[data-add]');if(add){e.stopPropagation();addToCart(add.dataset.add);add.textContent='ADDED ✓';setTimeout(()=>{if(add.isConnected)add.textContent='ADD TO CART'},900);return}const heart=e.target.closest('[data-heart]');if(heart){e.stopPropagation();const id=Number(heart.dataset.heart);if(wishlist.has(id))wishlist.delete(id);else wishlist.add(id);heart.classList.toggle('on',wishlist.has(id));return}const product=e.target.closest('[data-id]');if(product)showDetails(product.dataset.id)});$('openCart').onclick=showCart;$('closeModal').onclick=()=>$('modalBack').classList.remove('show');$('modalBack').addEventListener('click',e=>{if(e.target===$('modalBack'))$('modalBack').classList.remove('show')});$('filterToggle').onclick=()=>$('sidebar').classList.toggle('open');
+
+renderSideFilters();$('resultCount').textContent=`${allProducts.length.toLocaleString()} catalogue listings ready`;render();
+})();
+</script></body></html>
