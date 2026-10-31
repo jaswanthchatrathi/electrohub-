@@ -220,6 +220,15 @@ function showCart(){
 }
 $('searchForm').addEventListener('submit',e=>{e.preventDefault();query=$('searchInput').value.trim();page=1;quick='all';document.querySelectorAll('[data-quick]').forEach(x=>x.classList.toggle('active',x.dataset.quick==='all'));render();});$('searchInput').addEventListener('input',()=>{query=$('searchInput').value.trim();page=1;render()});$('categories').addEventListener('click',e=>{const b=e.target.closest('[data-cat]');if(!b)return;activeCategory=b.dataset.cat;page=1;syncCats();render()});$('sortSelect').addEventListener('change',()=>{page=1;render()});['minPrice','maxPrice','inStock'].forEach(id=>$(id).addEventListener('change',()=>{page=1;render()}));$('clearFilters').onclick=()=>{$('minPrice').value='';$('maxPrice').value='';$('inStock').checked=false;document.querySelectorAll('.brandcheck,.catcheck').forEach(x=>x.checked=false);activeCategory='All';query='';$('searchInput').value='';quick='all';page=1;syncCats();document.querySelectorAll('[data-quick]').forEach(x=>x.classList.toggle('active',x.dataset.quick==='all'));render()};document.querySelectorAll('[data-quick]').forEach(b=>b.addEventListener('click',()=>{quick=b.dataset.quick;page=1;document.querySelectorAll('[data-quick]').forEach(x=>x.classList.toggle('active',x===b));render()}));$('productGrid').addEventListener('click',e=>{const add=e.target.closest('[data-add]');if(add){e.stopPropagation();addToCart(add.dataset.add);add.textContent='ADDED ✓';setTimeout(()=>{if(add.isConnected)add.textContent='ADD TO CART'},900);return}const heart=e.target.closest('[data-heart]');if(heart){e.stopPropagation();const id=Number(heart.dataset.heart);if(wishlist.has(id))wishlist.delete(id);else wishlist.add(id);heart.classList.toggle('on',wishlist.has(id));return}const product=e.target.closest('[data-id]');if(product)showDetails(product.dataset.id)});$('openCart').onclick=showCart;$('closeModal').onclick=()=>$('modalBack').classList.remove('show');$('modalBack').addEventListener('click',e=>{if(e.target===$('modalBack'))$('modalBack').classList.remove('show')});$('filterToggle').onclick=()=>$('sidebar').classList.toggle('open');
 
-renderSideFilters();$('resultCount').textContent=`${allProducts.length.toLocaleString()} catalogue listings ready`;render();
+ renderSideFilters();
+
+$('resultCount').textContent =
+    `${allProducts.length.toLocaleString()} catalogue listings ready`;
+
+render();
+
+// Load latest prices and stock from Google Sheets
+loadSheetPrices();
+
 })();
 </script></body></html>
